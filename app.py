@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 from google import genai
 
 # 1. Page Configuration & UI Styling
@@ -11,19 +12,21 @@ st.set_page_config(
 st.title("🚀 AI-Powered Local Business Growth Suite")
 st.caption("Empowering local shops, freelancers, and small businesses with premium marketing tools.")
 
-# GLOBAL MODEL DEFINITION (Using the universally available 1.5-flash tier)
 AVAILABLE_MODEL = 'gemini-1.5-flash'
 
-# 2. Automated Secrets Management
+# 2. Native Environment & Secrets Management for AQ. Keys
+# Look for Streamlit Secrets first
 if "GEMINI_API_KEY" in st.secrets:
-    api_key = st.secrets["GEMINI_API_KEY"]
-    client = genai.Client(api_key=api_key)
+    os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
+    client = genai.Client() # Initializes automatically from the environment environment variable
 else:
+    # Sidebar fallback if secrets are empty
     st.sidebar.header("🔑 Authentication")
-    api_key = st.sidebar.text_input("Enter your Gemini API Key:", type="password")
-    st.sidebar.markdown("💡 *Get a free key from [Google AI Studio](https://google.com)*")
-    if api_key:
-        client = genai.Client(api_key=api_key)
+    user_key = st.sidebar.text_input("Enter your Gemini API Key (starts with AQ.):", type="password")
+    st.sidebar.markdown("💡 *Your key from [Google AI Studio](https://aistudio.google.com/)*")
+    if user_key:
+        os.environ["GEMINI_API_KEY"] = user_key.strip()
+        client = genai.Client()
     else:
         st.info("← Please enter your Gemini API Key in the sidebar or configure Streamlit Secrets to start.")
         st.stop()
