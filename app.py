@@ -11,13 +11,14 @@ st.set_page_config(
 st.title("🚀 AI-Powered Local Business Growth Suite")
 st.caption("Empowering local shops, freelancers, and small businesses with premium marketing tools.")
 
+# GLOBAL MODEL DEFINITION (Using the universally available 1.5-flash tier)
+AVAILABLE_MODEL = 'gemini-1.5-flash'
+
 # 2. Automated Secrets Management
 if "GEMINI_API_KEY" in st.secrets:
-    # Use the secure hidden key automatically
     api_key = st.secrets["GEMINI_API_KEY"]
     client = genai.Client(api_key=api_key)
 else:
-    # Fallback to sidebar if secrets aren't set up yet
     st.sidebar.header("🔑 Authentication")
     api_key = st.sidebar.text_input("Enter your Gemini API Key:", type="password")
     st.sidebar.markdown("💡 *Get a free key from [Google AI Studio](https://google.com)*")
@@ -58,10 +59,10 @@ with tab1:
                 You are a professional PR and customer success manager for a business named '{biz_name}'.
                 Write a response to a customer who left a {rating} review. 
                 The customer said: "{review_text}"
-                Adopt a '{tone}' tone. If the review is negative (3 stars or fewer), offer a polite way for them to contact management privately to resolve it. Do not use placeholders; make it rea[...]
+                Adopt a '{tone}' tone. If the review is negative (3 stars or fewer), offer a polite way for them to contact management privately to resolve it. Do not use placeholders; make it ready to copy and paste.
                 """
                 response = client.models.generate_content(
-                    model='gemini-2.5-flash',
+                    model=AVAILABLE_MODEL,
                     contents=prompt
                 )
                 st.success("Done!")
@@ -96,7 +97,7 @@ with tab2:
                 2. A list of 10 hyper-local target keywords they should include on their website meta-tags to rank #1 in '{city_location}'.
                 """
                 response = client.models.generate_content(
-                    model='gemini-2.5-flash',
+                    model=AVAILABLE_MODEL,
                     contents=prompt
                 )
                 st.success("Done!")
@@ -133,7 +134,7 @@ with tab3:
                 - CALL TO ACTION (What to do next, e.g., 'Scan this QR code', 'Visit us at...')
                 """
                 response = client.models.generate_content(
-                    model='gemini-2.5-flash',
+                    model=AVAILABLE_MODEL,
                     contents=prompt
                 )
                 st.success("Done!")
