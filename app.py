@@ -12,7 +12,7 @@ st.set_page_config(
 st.title("🚀 AI-Powered Local Business Growth Suite")
 st.caption("Empowering local shops, freelancers, and small businesses with premium marketing tools.")
 
-AVAILABLE_MODEL = 'gemini-2.5-flash'
+AVAILABLE_MODEL = 'gemini-3.6-flash'
 
 # 2. Native Environment & Secrets Management for AQ. Keys
 # Look for Streamlit Secrets first
