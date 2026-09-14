@@ -11,19 +11,21 @@ st.set_page_config(
 st.title("🚀 AI-Powered Local Business Growth Suite")
 st.caption("Empowering local shops, freelancers, and small businesses with premium marketing tools.")
 
-# 2. Sidebar for API Key Setup
-st.sidebar.header("🔑 Authentication")
-api_key = st.sidebar.text_input("Enter your Gemini API Key:", type="password")
-st.sidebar.markdown(
-    "💡 *Get a free key from [Google AI Studio](https://google.com)*"
-)
-
-# Initialize the Gemini client if API key is provided
-if api_key:
+# 2. Automated Secrets Management
+if "GEMINI_API_KEY" in st.secrets:
+    # Use the secure hidden key automatically
+    api_key = st.secrets["GEMINI_API_KEY"]
     client = genai.Client(api_key=api_key)
 else:
-    st.info("← Please enter your Gemini API Key in the sidebar to start using the tools.")
-    st.stop()
+    # Fallback to sidebar if secrets aren't set up yet
+    st.sidebar.header("🔑 Authentication")
+    api_key = st.sidebar.text_input("Enter your Gemini API Key:", type="password")
+    st.sidebar.markdown("💡 *Get a free key from [Google AI Studio](https://google.com)*")
+    if api_key:
+        client = genai.Client(api_key=api_key)
+    else:
+        st.info("← Please enter your Gemini API Key in the sidebar or configure Streamlit Secrets to start.")
+        st.stop()
 
 # 3. Create Dashboard Tabs
 tab1, tab2, tab3 = st.tabs([
@@ -56,7 +58,7 @@ with tab1:
                 You are a professional PR and customer success manager for a business named '{biz_name}'.
                 Write a response to a customer who left a {rating} review. 
                 The customer said: "{review_text}"
-                Adopt a '{tone}' tone. If the review is negative (3 stars or fewer), offer a polite way for them to contact management privately to resolve it. Do not use placeholders; make it ready to copy and paste.
+                Adopt a '{tone}' tone. If the review is negative (3 stars or fewer), offer a polite way for them to contact management privately to resolve it. Do not use placeholders; make it rea[...]
                 """
                 response = client.models.generate_content(
                     model='gemini-2.5-flash',
