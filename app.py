@@ -41,17 +41,22 @@ else:
         st.stop()
 
 # 4. HIGH-AVAILABILITY SELF-HEALING ENGINE
+# 4. HIGH-AVAILABILITY SELF-HEALING ENGINE
 def run_inference(prompt_data, sys_instruction=None):
-    cfg = types.GenerateContentConfig(temperature=0.7)
-    if sys_instruction: cfg.system_instruction = sys_instruction
+    # Combine the system persona instruction directly into the prompt text to ensure compatibility
+    full_prompt = f"{sys_instruction}\n\nTask: {prompt_data}" if sys_instruction else prompt_data
+    
     for m_node, lbl in [(M1, "Alpha Channel"), (M2, "Beta Circuit")]:
         try:
-            res = client.models.generate_content(model=m_node, contents=prompt_data, config=cfg)
+            res = client.models.generate_content(
+                model=m_node, 
+                contents=full_prompt
+            )
             if res and res.text:
                 return res.text, f"⚡ Active via {lbl} ({m_node})"
         except Exception:
             time.sleep(0.5); continue
-    return None, "All infrastructure pipelines currently saturated. Please retry in 15 seconds."
+    return "All infrastructure pipelines currently saturated. Please retry in 15 seconds.", "System Block"
 APP_URL = "https://streamlit.app"
 VIRAL_FT = f"\n\n⚡ Generated via AI Growth Suite. Try Free: {APP_URL}"
 
