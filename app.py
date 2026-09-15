@@ -31,10 +31,18 @@ else:
         st.info("← Please enter your Gemini API Key in the sidebar or configure Streamlit Secrets to start.")
         st.stop()
 
-# 📊 Simple Visual Visitor Counter
+# 📊 Native Streamlit Visitor Tracker
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📈 App Analytics")
-st.sidebar.image("https://seeyoufarm.com")
+
+# Initialize the counter in the app session memory if it doesn't exist
+if "page_views" not in st.session_state:
+    st.session_state["page_views"] = 1
+else:
+    st.session_state["page_views"] += 1
+
+# Display it cleanly as native text that browsers can't block
+st.sidebar.metric(label="Total Visits This Session", value=st.session_state["page_views"])
 
 # 3. Create Dashboard Tabs
 tab1, tab2, tab3 = st.tabs([
