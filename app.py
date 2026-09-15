@@ -20,7 +20,7 @@ st.markdown("""
     .sub-caption { font-size: 1.1rem; color: #4B5563; margin-bottom: 2rem; }
     .success-box { background-color: #F0FDF4; padding: 1.2rem; border-radius: 0.5rem; border-left: 5px solid #16A34A; margin-top: 1rem; }
     </style>
-""", unsafe_style_html=True)
+""", unsafe_allow_html=True)
 
 # =====================================================================
 # 2. STATELESS-SAFE USER TELEMETRY TRACKER
