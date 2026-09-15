@@ -86,7 +86,7 @@ def execute_core_inference(prompt_payload, system_instruction_set=None):
         config_args["config"] = types.GenerateContentConfig(temperature=0.7)
 
     # Core Failover Loop Mechanics
-    for model_node, label in [(MODEL_ALPHA, "Alpha Channel"), (MODEL_BETA, "Beta Circuit"), (MODEL_GAMMA, "Gamma Failover")]:
+    for model_node, label in [(MODEL_TIER_1, "Alpha Channel"), (MODEL_TIER_2, "Beta Circuit"), (MODEL_TIER_3, "Gamma Failover")]:
         try:
             response = client.models.generate_content(
                 model=model_node,
