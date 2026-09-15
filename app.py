@@ -40,7 +40,7 @@ st.sidebar.markdown("---")
 
 # Render Primary Dashboard Headers
 st.markdown("<div class='main-header'>🚀 AI-Powered Local Business Growth Suite Pro</div>", unsafe_allow_html=True)
-st.markdown("<div class='sub-caption'>Elite, self-healing automation engine empowering micro-enterprises and local community businesses.</div>", unsafe_style_html=False)
+st.markdown("<div class='sub-caption'>Elite, self-healing automation engine empowering micro-enterprises and local community businesses.</div>", unsafe_allow_html=True) # <--- SCRIPT IS NOW FIXED
 
 # =====================================================================
 # 3. ADVANCED FAULT-TOLERANT CLOUD ROUTING SPECIFICATIONS
