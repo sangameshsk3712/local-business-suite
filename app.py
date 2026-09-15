@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 import time
+import urllib.parse
 from google import genai
 from google.genai import types
 
@@ -20,6 +21,7 @@ st.markdown("""
     .main-header { font-size: 2.5rem; font-weight: 800; color: #1E3A8A; margin-bottom: 0.2rem; }
     .sub-caption { font-size: 1.1rem; color: #4B5563; margin-bottom: 2rem; }
     .success-box { background-color: #F0FDF4; padding: 1.2rem; border-radius: 0.5rem; border-left: 5px solid #16A34A; margin-top: 1rem; }
+    .viral-badge { background-color: #EFF6FF; padding: 0.5rem; border-radius: 0.3rem; border: 1px dashed #3B82F6; font-size: 0.85rem; margin-top: 0.5rem; text-align: center; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -55,12 +57,10 @@ if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"]:
 else:
     st.sidebar.header("🔑 Cryptographic Authentication")
     user_key = st.sidebar.text_input("Enter Production API Token (AQ...):", type="password")
-    st.sidebar.markdown("💡 *Acquire zero-cost validation tokens at [Google AI Studio](https://aistudio.google.com/)*")
     if user_key:
         os.environ["GEMINI_API_KEY"] = user_key.strip()
         client = genai.Client()
     else:
-        st.info("💡 Complete backend handshake setup by providing a credential set in the secure sidebar matrix or Streamlit Secrets configuration.")
         st.stop()
 
 # =====================================================================
@@ -69,26 +69,23 @@ else:
 def execute_core_inference(prompt_payload, system_instruction_set=None):
     config_args = {}
     if system_instruction_set:
-        config_args["config"] = types.GenerateContentConfig(
-            system_instruction=system_instruction_set,
-            temperature=0.7
-        )
+        config_args["config"] = types.GenerateContentConfig(system_instruction=system_instruction_set, temperature=0.7)
     else:
         config_args["config"] = types.GenerateContentConfig(temperature=0.7)
 
     for model_node, label in [(MODEL_ALPHA, "Alpha Channel"), (MODEL_BETA, "Beta Circuit"), (MODEL_GAMMA, "Gamma Failover")]:
         try:
-            response = client.models.generate_content(
-                model=model_node,
-                contents=prompt_payload,
-                **config_args
-            )
+            response = client.models.generate_content(model=model_node, contents=prompt_payload, **config_args)
             return response.text, f"⚡ Active via {label} ({model_node})"
         except Exception:
             time.sleep(0.5)
             continue
             
     return None, "All endpoints saturated. Please re-trigger the generation button in 15 seconds."
+
+# GLOBAL VIRAL FOOTPRINT FOR LINK RETRIEVAL
+APP_URL = "https://streamlit.app"
+VIRAL_FOOTPRINT = f"\n\n⚡ Generated via AI Growth Suite. Try Free: {APP_URL}"
 
 # =====================================================================
 # 6. FIVE-TAB ELITE APPLICATION ENGINE INTERFACE
@@ -121,10 +118,9 @@ with tab1:
                 prompt = f"Analyze review for '{biz_name}'. Stars: {rating}. Review: '{review_text}'. Style: {tone}. If 3 stars or lower, insert an escalation clause inviting private mediation. Do not output placeholders."
                 payload_response, log_trace = execute_core_inference(prompt, sys_inst)
                 if payload_response:
+                    final_output = payload_response + VIRAL_FOOTPRINT
                     st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}</div>", unsafe_allow_html=True)
-                    st.write(payload_response)
-                else:
-                    st.error(log_trace)
+                    st.write(final_output)
 
 # ---------------------------------------------------------------------
 # TAB 2: GEOGRAPHIC SEO COMPILER
@@ -146,10 +142,9 @@ with tab2:
                 prompt = f"Compile local optimization suite for a '{biz_type}' in '{city_location}' targeting '{seo_topic}'. Provide: 1. A Google Business Profile post update under 1500 chars with a clear CTA. 2. A list of 10 hyper-local search intent keywords."
                 payload_response, log_trace = execute_core_inference(prompt, sys_inst)
                 if payload_response:
+                    final_output = payload_response + VIRAL_FOOTPRINT
                     st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}</div>", unsafe_allow_html=True)
-                    st.write(payload_response)
-                else:
-                    st.error(log_trace)
+                    st.write(final_output)
 
 # ---------------------------------------------------------------------
 # TAB 3: TYPOGRAPHICAL FLYER DESIGNER
@@ -170,10 +165,9 @@ with tab3:
                 prompt = f"Design a visual copywriting wireframe flyer layout for Goal: '{flyer_goal}' and Parameters: '{offer_details}'. Break text down cleanly for Canva into: VISUAL ANCHOR HEADLINE, SUBHEADER, MODULAR DATA, and FOOTER CALL TO ACTION."
                 payload_response, log_trace = execute_core_inference(prompt, sys_inst)
                 if payload_response:
+                    final_output = payload_response + VIRAL_FOOTPRINT
                     st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}</div>", unsafe_allow_html=True)
-                    st.write(payload_response)
-                else:
-                    st.error(log_trace)
+                    st.write(final_output)
 
 # ---------------------------------------------------------------------
 # TAB 4: WHATSAPP BROADCAST SCALER
@@ -194,10 +188,15 @@ with tab4:
                 prompt = f"Format this text into an enterprise WhatsApp broadcast message: '{wa_update}' using CTA trigger: '{wa_cta}'. Maximize spacing, use markdown bold formatting (*text*) for key phrases, and decorate with professional business emojis as bullet visual layout anchors."
                 payload_response, log_trace = execute_core_inference(prompt, sys_inst)
                 if payload_response:
+                    final_output = payload_response + VIRAL_FOOTPRINT
                     st.success(f"System Status: {log_trace}")
-                    st.code(payload_response, language="text")
-                else:
-                    st.error(log_trace)
+                    st.code(final_output, language="text")
+                    
+                    # 🚀 VIRAL DEEP-LINK BUTTON GENERATION ENGINE
+                    encoded_text = urllib.parse.quote(final_output)
+                    wa_share_url = f"https://whatsapp.com{encoded_text}"
+                    st.markdown(f'<a href="{wa_share_url}" target="_blank" style="text-decoration:none;"><button style="width:100%;background-color:#25D366;color:white;border:none;padding:0.75rem;border-radius:0.4rem;font-weight:bold;cursor:pointer;font-size:1rem;margin-top:0.5rem;">📲 Fast Forward Direct to WhatsApp Contacts</button></a>', unsafe_allow_html=True)
+                    st.markdown("<div class='viral-badge'>💡 Sharing propagates your free application trace link organically across regional networks.</div>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------
 # TAB 5: REGIONAL SUITE LOCALIZATION MATRIX
@@ -207,7 +206,7 @@ with tab5:
     st.write("Translate standard English campaign properties into localized regional dialects.")
     col1, col2 = st.columns(2)
     with col1:
-        target_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾठी)"], key="m5_lang")
+        target_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (हिन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾठी)"], key="m5_lang")
         input_marketing_text = st.text_area("Source English Marketing Properties:", placeholder="Enter marketing text here...", key="m5_src")
         generate_translation = st.button("Process Linguistic Localization Strategy", key="btn_m5")
     with col2:
@@ -218,7 +217,6 @@ with tab5:
                 prompt = f"Translate and localize this English business marketing copy: '{input_marketing_text}' into {target_lang}. Do not make a machine translation; optimize it to sound natural, persuasive, and appealing to local consumers speaking that language natively."
                 payload_response, log_trace = execute_core_inference(prompt, sys_inst)
                 if payload_response:
+                    final_output = payload_response + VIRAL_FOOTPRINT
                     st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}</div>", unsafe_allow_html=True)
-                    st.write(payload_response)
-                else:
-                    st.error(log_trace)
+                    st.write(final_output)
