@@ -139,12 +139,14 @@ with tab4:
                     st.success(f"Status: {trace}"); st.code(f_out, language="text")
                     encoded = urllib.parse.quote(f_out)
                     st.markdown(f'<a href="https://whatsapp.com{encoded}" target="_blank"><button style="width:100%;background-color:#25D366;color:white;border:none;padding:0.75rem;border-radius:0.4rem;font-weight:bold;cursor:pointer;">📲 Fast Forward Direct to WhatsApp Contacts</button></a>', unsafe_allow_html=True)
+                else:
+                    st.error(trace)
 
 with tab5:
     st.header("🌐 Regional Semantic Translation Studio")
     c1, c2 = st.columns(2)
     with c1:
-        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (हिन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾठी)"], key="k12")
+        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (ತೆಗಳು)", "Marathi (ಮರಾಠಿ)"], key="k12")
         lang_in = st.text_area("Source English Marketing Copy:", placeholder="Enter marketing text here...", key="k13")
         btn5 = st.button("Process Linguistic Localization Strategy", key="b5")
     with c2:
@@ -153,4 +155,8 @@ with tab5:
             with st.spinner(f"Executing localization matrix for {t_lang}..."):
                 p = f"Translate and culturally localize this business marketing copy: '{lang_in}' into natural, persuasive {t_lang} meant for local commerce. Do not do a literal machine translation."
                 out, trace = run_inference(p, f"You are a native copywriting strategist fluent in {t_lang}.")
-                if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
+                if out: 
+                    st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True)
+                    st.write(out + VIRAL_FT)
+                else:
+                    st.error(trace)
