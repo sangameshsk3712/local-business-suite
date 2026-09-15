@@ -44,9 +44,9 @@ st.markdown("<div class='sub-caption'>Elite, fault-tolerant automation engine em
 # =====================================================================
 # 3. MULTI-TIER SELF-HEALING INFRASTRUCTURE PIPELINE
 # =====================================================================
-MODEL_ALPHA = 'gemini-3.8-flash'
-MODEL_BETA  = 'gemini-3.7-flash'
-MODEL_GAMMA = 'gemini-3.6-flash'
+MODEL_ALPHA = 'gemini-2.5-flash'
+MODEL_BETA  = 'gemini-1.5-flash'
+MODEL_GAMMA = 'gemini-1.5-pro'
 
 # =====================================================================
 # 4. SECURE AGNOSTIC KEY RESOLUTION LAYER (Supports new AQ. Keys)
@@ -88,14 +88,16 @@ APP_URL = "https://streamlit.app"
 VIRAL_FOOTPRINT = f"\n\n⚡ Generated via AI Growth Suite. Try Free: {APP_URL}"
 
 # =====================================================================
-# 6. FIVE-TAB ELITE APPLICATION ENGINE INTERFACE
+# 6. SEVEN-TAB ELITE APPLICATION ENGINE INTERFACE
 # =====================================================================
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
     "💬 Review Reply Assistant", 
     "🔍 Local SEO Optimizer", 
     "📢 Smart Flyer Layout Designer",
     "📱 WhatsApp Broadcast Formatter",
-    "🌐 Regional Language Studio"
+    "🌐 Regional Language Studio",
+    "📊 Competitor Intel Matrix",
+    "🎬 Social Video Scriptwriter"
 ])
 # ---------------------------------------------------------------------
 # TAB 1: REVIEW REPLY MATRIX
@@ -106,7 +108,7 @@ with tab1:
     col1, col2 = st.columns(2)
     with col1:
         biz_name = st.text_input("Corporate / Business Entity Name", placeholder="e.g., Shiva Bakery", key="m1_name")
-        rating = st.selectbox("Customer Sentiment Rating", ["⭐⭐⭐⭐⭐ (5 Stars)", "⭐⭐⭐⭐ (4 Stars)", "⭐⭐⭐ (3 Stars)", "⭐⭐ (2 Stars)", "⭐ (1 Star)"], key="m1_rank")
+        rating = st.selectbox("Customer Sentiment Rating", ["5 Stars", "4 Stars", "3 Stars", "2 Stars", "1 Star"], key="m1_rank")
         review_text = st.text_area("Inbound Unstructured Review Copy:", placeholder="Paste text here...", key="m1_copy")
         tone = st.selectbox("Brand Voice Matrix", ["Professional & Grateful", "Apologetic & Solution-Oriented", "Friendly & Casual"], key="m1_voice")
         generate_reply = st.button("Generate Public Response Blueprint", key="btn_m1")
@@ -114,13 +116,12 @@ with tab1:
         st.subheader("Optimized Public Output")
         if generate_reply and review_text:
             with st.spinner("Executing sequence processing..."):
-                sys_inst = "You are a professional corporate PR Executive and Communication Consultant specializing in brand preservation."
-                prompt = f"Analyze review for '{biz_name}'. Stars: {rating}. Review: '{review_text}'. Style: {tone}. If 3 stars or lower, insert an escalation clause inviting private mediation. Do not output placeholders."
+                sys_inst = "You are a professional corporate PR Executive specializing in brand preservation."
+                prompt = f"Analyze review for '{biz_name}'. Stars: {rating}. Review: '{review_text}'. Style: {tone}. If 3 stars or lower, insert an escalation clause inviting private mediation."
                 payload_response, log_trace = execute_core_inference(prompt, sys_inst)
                 if payload_response:
-                    final_output = payload_response + VIRAL_FOOTPRINT
                     st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}</div>", unsafe_allow_html=True)
-                    st.write(final_output)
+                    st.write(payload_response + VIRAL_FOOTPRINT)
 
 # ---------------------------------------------------------------------
 # TAB 2: GEOGRAPHIC SEO COMPILER
@@ -138,13 +139,12 @@ with tab2:
         st.subheader("Optimized Search Engine Packages")
         if generate_seo and biz_type and city_location:
             with st.spinner("Injecting semantic geo-locational indexing strings..."):
-                sys_inst = "You are an elite Local Search Engine Optimization (SEO) Engineer and Digital Growth Director."
-                prompt = f"Compile local optimization suite for a '{biz_type}' in '{city_location}' targeting '{seo_topic}'. Provide: 1. A Google Business Profile post update under 1500 chars with a clear CTA. 2. A list of 10 hyper-local search intent keywords."
+                sys_inst = "You are an elite Local Search Engine Optimization (SEO) Engineer."
+                prompt = f"Compile local SEO suite for '{biz_type}' in '{city_location}' targeting '{seo_topic}'. Provide a Google Business post under 1500 chars and 10 hyper-local keywords."
                 payload_response, log_trace = execute_core_inference(prompt, sys_inst)
                 if payload_response:
-                    final_output = payload_response + VIRAL_FOOTPRINT
                     st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}</div>", unsafe_allow_html=True)
-                    st.write(final_output)
+                    st.write(payload_response + VIRAL_FOOTPRINT)
 
 # ---------------------------------------------------------------------
 # TAB 3: TYPOGRAPHICAL FLYER DESIGNER
@@ -155,19 +155,18 @@ with tab3:
     col1, col2 = st.columns(2)
     with col1:
         flyer_goal = st.text_input("Campaign Destination Milestone", placeholder="e.g., Grand Inauguration", key="m3_mile")
-        offer_details = st.text_area("Value Matrices & Promotional Parameters", placeholder="e.g., 50% discount, Valid this Saturday only.", key="m3_params")
+        offer_details = st.text_area("Value Matrices & Promotional Parameters", placeholder="e.g., 50% discount this Saturday", key="m3_params")
         generate_flyer = st.button("Structure Graphic Composition Script", key="btn_m3")
     with col2:
         st.subheader("Structured Typography Framework")
         if generate_flyer and flyer_goal:
             with st.spinner("Processing visual weight variables..."):
-                sys_inst = "You are an award-winning Commercial Advertising Director and Graphic Layout Copywriter."
-                prompt = f"Design a visual copywriting wireframe flyer layout for Goal: '{flyer_goal}' and Parameters: '{offer_details}'. Break text down cleanly for Canva into: VISUAL ANCHOR HEADLINE, SUBHEADER, MODULAR DATA, and FOOTER CALL TO ACTION."
+                sys_inst = "You are an award-winning Graphic Layout Copywriter."
+                prompt = f"Design a visual copywriting wireframe flyer layout for Goal: '{flyer_goal}' and Parameters: '{offer_details}'. Break text down cleanly into VISUAL ANCHOR HEADLINE, SUBHEADER, MODULAR DATA, and CALL TO ACTION FOOTER."
                 payload_response, log_trace = execute_core_inference(prompt, sys_inst)
                 if payload_response:
-                    final_output = payload_response + VIRAL_FOOTPRINT
                     st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}</div>", unsafe_allow_html=True)
-                    st.write(final_output)
+                    st.write(payload_response + VIRAL_FOOTPRINT)
 
 # ---------------------------------------------------------------------
 # TAB 4: WHATSAPP BROADCAST SCALER
@@ -184,39 +183,53 @@ with tab4:
         st.subheader("Copy-Paste Script Output")
         if generate_wa and wa_update:
             with st.spinner("Constructing engagement broadcast patterns..."):
-                sys_inst = "You are an expert Mobile Conversion Copywriter specializing in instant-messaging monetization."
-                prompt = f"Format this text into an enterprise WhatsApp broadcast message: '{wa_update}' using CTA trigger: '{wa_cta}'. Maximize spacing, use markdown bold formatting (*text*) for key phrases, and decorate with professional business emojis as bullet visual layout anchors."
+                sys_inst = "You are an expert Mobile Conversion Copywriter."
+                prompt = f"Format this text into an enterprise WhatsApp broadcast message: '{wa_update}' using CTA trigger: '{wa_cta}'. Maximize line spacing, use markdown bolding (*text*), and decorate with visual emojis."
                 payload_response, log_trace = execute_core_inference(prompt, sys_inst)
                 if payload_response:
                     final_output = payload_response + VIRAL_FOOTPRINT
                     st.success(f"System Status: {log_trace}")
                     st.code(final_output, language="text")
                     
-                    # 🚀 VIRAL DEEP-LINK BUTTON GENERATION ENGINE
                     encoded_text = urllib.parse.quote(final_output)
                     wa_share_url = f"https://whatsapp.com{encoded_text}"
                     st.markdown(f'<a href="{wa_share_url}" target="_blank" style="text-decoration:none;"><button style="width:100%;background-color:#25D366;color:white;border:none;padding:0.75rem;border-radius:0.4rem;font-weight:bold;cursor:pointer;font-size:1rem;margin-top:0.5rem;">📲 Fast Forward Direct to WhatsApp Contacts</button></a>', unsafe_allow_html=True)
                     st.markdown("<div class='viral-badge'>💡 Sharing propagates your free application trace link organically across regional networks.</div>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------
-# TAB 5: REGIONAL SUITE LOCALIZATION MATRIX
+# TAB 5: REGIONAL SUITE LOCALIZATION
 # ---------------------------------------------------------------------
 with tab5:
-    st.header("🌐 Regional Semantic Translation & Localization Matrix")
+    st.header("🌐 Regional Semantic Translation Studio")
     st.write("Translate standard English campaign properties into localized regional dialects.")
     col1, col2 = st.columns(2)
     with col1:
-        target_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (हिन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾठी)"], key="m5_lang")
+        target_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾಠಿ)"], key="m5_lang")
         input_marketing_text = st.text_area("Source English Marketing Properties:", placeholder="Enter marketing text here...", key="m5_src")
         generate_translation = st.button("Process Linguistic Localization Strategy", key="btn_m5")
     with col2:
         st.subheader("Localized Regional Copy Output")
         if generate_translation and input_marketing_text:
             with st.spinner(f"Executing localization matrix mapping for {target_lang}..."):
-                sys_inst = f"You are a native linguistic expert, copywriter, and cultural localization strategist expert in {target_lang} dialect frameworks."
-                prompt = f"Translate and localize this English business marketing copy: '{input_marketing_text}' into {target_lang}. Do not make a machine translation; optimize it to sound natural, persuasive, and appealing to local consumers speaking that language natively."
+                sys_inst = f"You are a native linguistic expert and copywriting strategist fluent in {target_lang}."
+                prompt = f"Translate and adapt this business marketing copy: '{input_marketing_text}' into natural, highly persuasive {target_lang} meant for local commerce. Do not do a literal machine translation."
                 payload_response, log_trace = execute_core_inference(prompt, sys_inst)
                 if payload_response:
-                    final_output = payload_response + VIRAL_FOOTPRINT
                     st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}</div>", unsafe_allow_html=True)
-                    st.write(final_output)
+                    st.write(payload_response + VIRAL_FOOTPRINT)
+
+# ---------------------------------------------------------------------
+# TAB 6: COMPETITOR INTELLIGENCE MATRIX
+# ---------------------------------------------------------------------
+with tab6:
+    st.header("📊 AI Competitor Intelligence Matrix")
+    st.write("Analyze your local competitor's advertising methods and generate strategies to outperform them.")
+    col1, col2 = st.columns(2)
+    with col1:
+        comp_text = st.text_area("Paste Competitor's Offer / Social Post / Ad copy here:", placeholder="e.g., Mega Bakery offering birthday cakes at 20% discount with free delivery...")
+        my_advantage = st.text_input("Your Business Strength", placeholder="e.g., We use 100% organic ingredients, live baking display")
+        generate_intel = st.button("Generate Counter Strategy", key="btn_m6")
+    with col2:
+        st.subheader("Counter-Marketing Blueprint")
+        if generate_intel and comp_text:
+            with st.spinner("Analyzing competitor strategy vectors..."):
