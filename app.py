@@ -46,9 +46,9 @@ st.markdown("<div class='sub-caption'>Elite, self-healing automation engine empo
 # 3. ADVANCED FAULT-TOLERANT CLOUD ROUTING SPECIFICATIONS
 # =====================================================================
 # Hardcoded to production endpoints matching active system metrics to bypass errors completely
-MODEL_ALPHA = 'gemini-2.5-flash'
-MODEL_BETA  = 'gemini-1.5-flash'
-MODEL_GAMMA = 'gemini-1.5-pro'
+MODEL_TIER_1 = 'gemini-3.8-flash'
+MODEL_TIER_2 = 'gemini-3.7-flash'
+MODEL_TIER_3 = 'gemini-3.6-flash'
 
 # =====================================================================
 # 4. SECURE AGNOSTIC KEY HANDSHAKE LAYER (Supports New AQ. Key Matrix)
