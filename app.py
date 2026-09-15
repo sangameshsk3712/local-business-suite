@@ -28,7 +28,9 @@ st.markdown("<div class='sub-caption'>Elite, self-healing automation engine empo
 
 # 3. PRODUCTION ENDPOINTS FOR STABLE API INFRASTRUCTURE
 # 3. PRODUCTION ENDPOINTS FOR STABLE API INFRASTRUCTURE
-M1, M2 = 'gemini-3.8-flash', 'gemini-3.7-flash'
+# 3. PRODUCTION ENDPOINTS FOR STABLE API INFRASTRUCTURE
+M1, M2 = 'gemini-2.5-flash', 'gemini-2.5-pro'
+
 if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"]:
     os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
     client = genai.Client()
