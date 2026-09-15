@@ -28,22 +28,21 @@ st.markdown("<div class='main-header'>🚀 AI-Powered Local Business Growth Suit
 st.markdown("<div class='sub-caption'>Elite, self-healing automation engine empowering local community businesses.</div>", unsafe_allow_html=True)
 
 # 3. PRODUCTION ENDPOINTS FOR STABLE API INFRASTRUCTURE
-MODEL_TIER_1 = 'gemini-2.5-flash'
-MODEL_TIER_2 = 'gemini-1.5-flash'
-
-# Initialize master key lookup safely
+# Initialize master configuration references safely
 master_key = None
+client = None
+
 if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"]:
     master_key = st.secrets["GEMINI_API_KEY"].strip()
     os.environ["GEMINI_API_KEY"] = master_key
-    client = genai.Client()
+    client = genai.Client(api_key=master_key)
 else:
     st.sidebar.header("🔑 Authentication Matrix")
     user_key = st.sidebar.text_input("Enter Production API Token (AQ...):", type="password")
     if user_key:
         master_key = user_key.strip()
         os.environ["GEMINI_API_KEY"] = master_key
-        client = genai.Client()
+        client = genai.Client(api_key=master_key)
     else:
         st.info("💡 Complete backend handshake setup by providing a credential set in the secure sidebar matrix or Streamlit Secrets configuration.")
         st.stop()
