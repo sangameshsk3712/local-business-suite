@@ -45,10 +45,18 @@ else:
         st.stop()
 
 # 4. UNIVERSAL SELF-HEALING ROUTING UTILITY
+# 4. UNIVERSAL SELF-HEALING ROUTING UTILITY
 def run_inference(prompt_data, sys_instruction=None):
     full_prompt = f"{sys_instruction}\n\nTask: {prompt_data}" if sys_instruction else prompt_data
+    
+    # Dynamic live sync connection matrix
     try:
-        local_client = genai.Client(api_key=active_key)
+        if "GEMINI_API_KEY" in st.secrets:
+            local_client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"].strip())
+        elif active_key:
+            local_client = genai.Client(api_key=active_key)
+        else:
+            local_client = client
     except Exception:
         local_client = client
 
