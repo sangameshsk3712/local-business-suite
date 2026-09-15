@@ -27,7 +27,7 @@ st.sidebar.markdown("---")
 st.markdown("<div class='main-header'>🚀 AI-Powered Local Business Growth Suite Pro</div>", unsafe_allow_html=True)
 st.markdown("<div class='sub-caption'>Elite, self-healing automation engine empowering local community businesses.</div>", unsafe_allow_html=True)
 
-# 3. ADVANCED FAULT-TOLERANT MODEL PIPELINES
+# 3. PRODUCTION ENDPOINTS FOR STABLE API INFRASTRUCTURE
 MODEL_TIER_1 = 'gemini-2.5-flash'
 MODEL_TIER_2 = 'gemini-1.5-flash'
 
@@ -67,10 +67,10 @@ def run_inference(prompt_data, sys_instruction=None):
 APP_URL = "https://streamlit.app"
 VIRAL_FT = f"\n\n⚡ Generated via AI Growth Suite. Try Free: {APP_URL}"
 
-# 5. SEVEN-TAB ENGINE INTERFACE INITIALIZATION
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+# 5. FIVE-TAB ENGINE INTERFACE INITIALIZATION
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "💬 Review Assistant", "🔍 SEO Optimizer", "📢 Flyer Designer",
-    "📱 WhatsApp Formatter", "🌐 Regional Studio", "📊 Competitor Intel", "🎬 Reels Scriptwriter"
+    "📱 WhatsApp Formatter", "🌐 Regional Studio"
 ])
 
 with tab1:
@@ -139,11 +139,12 @@ with tab4:
                     st.success(f"Status: {trace}"); st.code(f_out, language="text")
                     encoded = urllib.parse.quote(f_out)
                     st.markdown(f'<a href="https://whatsapp.com{encoded}" target="_blank"><button style="width:100%;background-color:#25D366;color:white;border:none;padding:0.75rem;border-radius:0.4rem;font-weight:bold;cursor:pointer;">📲 Fast Forward Direct to WhatsApp Contacts</button></a>', unsafe_allow_html=True)
+
 with tab5:
     st.header("🌐 Regional Semantic Translation Studio")
     c1, c2 = st.columns(2)
     with c1:
-        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾಠಿ)"], key="k12")
+        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (हिन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾठी)"], key="k12")
         lang_in = st.text_area("Source English Marketing Copy:", placeholder="Enter marketing text here...", key="k13")
         btn5 = st.button("Process Linguistic Localization Strategy", key="b5")
     with c2:
@@ -152,34 +153,4 @@ with tab5:
             with st.spinner(f"Executing localization matrix for {t_lang}..."):
                 p = f"Translate and culturally localize this business marketing copy: '{lang_in}' into natural, persuasive {t_lang} meant for local commerce. Do not do a literal machine translation."
                 out, trace = run_inference(p, f"You are a native copywriting strategist fluent in {t_lang}.")
-                if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
-
-with tab6:
-    st.header("📊 AI Competitor Intelligence Matrix")
-    c1, c2 = st.columns(2)
-    with c1:
-        comp_txt = st.text_area("Paste Competitor's Offer / Social Ad copy here:", placeholder="e.g., Competitor offering cakes at 20% discount...", key="k14")
-        my_adv = st.text_input("Your Core Business Strength", placeholder="e.g., We use 100% organic local ingredients", key="k15")
-        btn6 = st.button("Generate Market Counter Strategy", key="b6")
-    with c2:
-        st.subheader("Counter-Marketing Blueprint")
-        if btn6 and comp_txt:
-            with st.spinner("Analyzing competitor strategy vectors..."):
-                p = f"Analyze competitor copy: '{comp_txt}'. Given my edge: '{my_adv}', generate a counter-strategy: 1. Weakness Analysis. 2. A specific counter-marketing message framework. 3. Three tactical market adjustments."
-                out, trace = run_inference(p, "You are an elite Competitive Growth Intelligence Analyst.")
-                if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
-
-with tab7:
-    st.header("🎬 Smart Instagram & Social Reels Scriptwriter")
-    c1, c2 = st.columns(2)
-    with c1:
-        v_topic = st.text_input("Video Script Topic Focus", placeholder="e.g., Hidden plumbing tips, bakery daily life", key="k16")
-        v_style = st.selectbox("Video Concept Presentation Model", ["Educational & Informative", "Fast-Paced & Energetic", "Storytelling & Emotional"], key="k17")
-        btn7 = st.button("Generate Video Script Blueprint", key="b7")
-    with c2:
-        st.subheader("Social Reel Script Structure")
-        if btn7 and v_topic:
-            with st.spinner("Architecting visual timeline hooks..."):
-                p = f"Create a viral short-form video script outline about: '{v_topic}' using a '{v_style}' presentation framework. Provide: 1. Hook (0-3s). 2. Visual directions with voiceover scripts. 3. Hashtags."
-                out, trace = run_inference(p, "You are a viral Social Media Content Director.")
                 if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
