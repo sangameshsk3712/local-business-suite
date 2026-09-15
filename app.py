@@ -83,7 +83,7 @@ st.markdown(
 APP_NAME = "AI Local Business Growth Suite Pro"
 APP_VERSION = "3.0"
 
-MODEL_NAME = "gemini-2.5-flash"
+MODEL_NAME = "gemini-3.6-flash"
 
 APP_URL = "https://streamlit.app"
 
