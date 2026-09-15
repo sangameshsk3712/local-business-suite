@@ -68,14 +68,29 @@ with tab1:
                 You are a professional PR and customer success manager for a business named '{biz_name}'.
                 Write a response to a customer who left a {rating} review. 
                 The customer said: "{review_text}"
-                Adopt a '{tone}' tone. If the review is negative (3 stars or fewer), offer a polite way for them to contact management privately to resolve it. Do not use placeholders; make it rea[...]
+                Adopt a '{tone}' tone. If the review is negative (3 stars or fewer), offer a polite way for them to contact management privately to resolve it. Do not use placeholders; make it ready to copy and paste.
                 """
-                response = client.models.generate_content(
-                    model=AVAILABLE_MODEL,
-                    contents=prompt
-                )
-                st.success("Done!")
-                st.write(response.text)
+                try:
+                    # Attempt 1: Try the preferred model requested by the user account
+                    response = client.models.generate_content(
+                        model=AVAILABLE_MODEL,
+                        contents=prompt
+                    )
+                    st.success("Done!")
+                    st.write(response.text)
+                except Exception as primary_error:
+                    # Attempt 2: Auto-fallback if the server is overloaded
+                    st.info("🔄 Primary model busy. Switching to backup server...")
+                    try:
+                        response = client.models.generate_content(
+                            model='gemini-2.5-pro', # High-capacity alternative endpoint
+                            contents=prompt
+                        )
+                        st.success("Done (via Backup)!")
+                        st.write(response.text)
+                    except Exception as secondary_error:
+                        st.error("❌ Both public Google endpoints are currently overloaded.")
+                        st.warning("Please try pressing the button again in 30 seconds.")
 
 # ==========================================
 # TAB 2: LOCAL SEO BUNDLE GENERATOR
