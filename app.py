@@ -27,9 +27,9 @@ st.sidebar.markdown("---")
 st.markdown("<div class='main-header'>🚀 AI-Powered Local Business Growth Suite Pro</div>", unsafe_allow_html=True)
 st.markdown("<div class='sub-caption'>Elite, self-healing automation engine empowering local community businesses.</div>", unsafe_allow_html=True)
 
-# 3. ADVANCED FAULT-TOLERANT MODEL PIPELINES (Updated to 2026 Production Tier)
+# 3. ADVANCED FAULT-TOLERANT MODEL PIPELINES
 MODEL_TIER_1 = 'gemini-2.5-flash'
-MODEL_TIER_2 = 'gemini-2.5-pro'
+MODEL_TIER_2 = 'gemini-1.5-flash'
 
 # Initialize master key lookup safely
 master_key = None
@@ -52,18 +52,13 @@ else:
 def run_inference(prompt_data, sys_instruction=None):
     full_prompt = f"{sys_instruction}\n\nTask: {prompt_data}" if sys_instruction else prompt_data
     
-    # Target fallback configuration array loop
     for model_node, label in [(MODEL_TIER_1, "Alpha Channel"), (MODEL_TIER_2, "Beta Circuit")]:
         try:
-            # Dynamically initialize fresh client using the live master token lookup
             local_client = genai.Client(api_key=master_key)
-            res = local_client.models.generate_content(
-                model=model_node,
-                contents=full_prompt
-            )
+            res = local_client.models.generate_content(model=model_node, contents=full_prompt)
             if res and res.text:
                 return res.text, f"⚡ Active via {label} ({model_node})"
-        except Exception as error_context:
+        except Exception:
             time.sleep(0.5)
             continue
             
@@ -89,18 +84,11 @@ with tab1:
         btn1 = st.button("Generate Public Response", key="b1")
     with c2:
         st.subheader("Optimized Public Output")
-        if btn1:
-            if not rev_txt:
-                st.warning("Please provide the review text.")
-            else:
-                with st.spinner("Processing sentiment matrix..."):
-                    p = f"PR Manager for '{b_name}'. Rating: {rating}. Review: '{rev_txt}'. Style: '{tone}'. If 3 stars or lower, insert an escalation clause inviting private mediation."
-                    out, trace = run_inference(p, "You are a professional corporate PR Executive.")
-                    if out: 
-                        st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True)
-                        st.write(out + VIRAL_FT)
-                    else:
-                        st.error(trace)
+        if btn1 and rev_txt:
+            with st.spinner("Processing sentiment matrix..."):
+                p = f"PR Manager for '{b_name}'. Rating: {rating}. Review: '{rev_txt}'. Style: '{tone}'. If 3 stars or lower, insert an escalation clause inviting private mediation."
+                out, trace = run_inference(p, "You are a professional corporate PR Executive.")
+                if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
 
 with tab2:
     st.header("🔍 Hyper-Local SEO Performance Bundle")
@@ -112,18 +100,11 @@ with tab2:
         btn2 = st.button("Compile Advanced Search Metadata", key="b2")
     with c2:
         st.subheader("Optimized Search Engine Packages")
-        if btn2:
-            if not niche or not loc:
-                st.warning("Please provide business type and location details.")
-            else:
-                with st.spinner("Injecting geo-locational strings..."):
-                    p = f"Compile local SEO suite for a '{niche}' in '{loc}' targeting '{topic}'. Provide: 1. A Google Business Profile post update under 1500 chars with CTA. 2. Array of 10 hyper-local meta keywords."
-                    out, trace = run_inference(p, "You are an elite Local SEO Engineer.")
-                    if out: 
-                        st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True)
-                        st.write(out + VIRAL_FT)
-                    else:
-                        st.error(trace)
+        if btn2 and niche and loc:
+            with st.spinner("Injecting geo-locational strings..."):
+                p = f"Compile local SEO suite for a '{niche}' in '{loc}' targeting '{topic}'. Provide: 1. A Google Business Profile post update under 1500 chars with CTA. 2. Array of 10 hyper-local meta keywords."
+                out, trace = run_inference(p, "You are an elite Local SEO Engineer.")
+                if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
 
 with tab3:
     st.header("📢 Graphic Copy Structural Blueprint")
@@ -134,18 +115,11 @@ with tab3:
         btn3 = st.button("Structure Graphic Composition Script", key="b3")
     with c2:
         st.subheader("Structured Typography Framework")
-        if btn3:
-            if not goal:
-                st.warning("Please provide a campaign destination milestone goal.")
-            else:
-                with st.spinner("Processing visual hierarchy weight..."):
-                    p = f"Design a visual copywriting wireframe flyer layout for Goal: '{goal}', Parameters: '{details}'. Structure cleanly for Canva copy-pasting into: VISUAL ANCHOR HEADLINE, SUBHEADER, MODULAR BLOCK DATA, CTA FOOTER."
-                    out, trace = run_inference(p, "You are an award-winning Graphic Layout Copywriter.")
-                    if out: 
-                        st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True)
-                        st.write(out + VIRAL_FT)
-                    else:
-                        st.error(trace)
+        if btn3 and goal:
+            with st.spinner("Processing visual hierarchy weight..."):
+                p = f"Design a visual copywriting wireframe flyer layout for Goal: '{goal}', Parameters: '{details}'. Structure cleanly for Canva copy-pasting into: VISUAL ANCHOR HEADLINE, SUBHEADER, MODULAR BLOCK DATA, CTA FOOTER."
+                out, trace = run_inference(p, "You are an award-winning Graphic Layout Copywriter.")
+                if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
 
 with tab4:
     st.header("📱 Direct-Response WhatsApp Message Formatter")
@@ -156,33 +130,56 @@ with tab4:
         btn4 = st.button("Format Enterprise WhatsApp Script", key="b4")
     with c2:
         st.subheader("Copy-Paste Script Output")
-        if btn4:
-            if not wa_in:
-                st.warning("Please enter update details.")
-            else:
-                with st.spinner("Constructing engagement chat patterns..."):
-                    p = f"Format text into an enterprise WhatsApp broadcast: '{wa_in}' with CTA trigger: '{wa_cta}'. Maximize spacing, use bold formatting (*text*), and decorate with visual emojis."
-                    out, trace = run_inference(p, "You are an expert Mobile Conversion Copywriter.")
-                    if out:
-                        f_out = out + VIRAL_FT
-                        st.success(f"Status: {trace}")
-                        st.code(f_out, language="text")
-                        encoded = urllib.parse.quote(f_out)
-                        st.markdown(f'<a href="https://whatsapp.com{encoded}" target="_blank"><button style="width:100%;background-color:#25D366;color:white;border:none;padding:0.75rem;border-radius:0.4rem;font-weight:bold;cursor:pointer;">📲 Fast Forward Direct to WhatsApp Contacts</button></a>', unsafe_allow_html=True)
-                    else:
-                        st.error(trace)
-
+        if btn4 and wa_in:
+            with st.spinner("Constructing engagement chat patterns..."):
+                p = f"Format text into an enterprise WhatsApp broadcast: '{wa_in}' with CTA trigger: '{wa_cta}'. Maximize spacing, use bold formatting (*text*), and decorate with visual emojis."
+                out, trace = run_inference(p, "You are an expert Mobile Conversion Copywriter.")
+                if out:
+                    f_out = out + VIRAL_FT
+                    st.success(f"Status: {trace}"); st.code(f_out, language="text")
+                    encoded = urllib.parse.quote(f_out)
+                    st.markdown(f'<a href="https://whatsapp.com{encoded}" target="_blank"><button style="width:100%;background-color:#25D366;color:white;border:none;padding:0.75rem;border-radius:0.4rem;font-weight:bold;cursor:pointer;">📲 Fast Forward Direct to WhatsApp Contacts</button></a>', unsafe_allow_html=True)
 with tab5:
     st.header("🌐 Regional Semantic Translation Studio")
     c1, c2 = st.columns(2)
     with c1:
-        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (ತೆಗಳು)", "Marathi (ಮರಾಠಿ)"], key="k12")
+        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾಠಿ)"], key="k12")
         lang_in = st.text_area("Source English Marketing Copy:", placeholder="Enter marketing text here...", key="k13")
         btn5 = st.button("Process Linguistic Localization Strategy", key="b5")
     with c2:
         st.subheader("Localized Regional Copy Output")
-        if btn5:
-            if not lang_in:
-                st.warning("Please input english source marketing properties text.")
-            else:
-                with st.spinner(f"Executing localization matrix for {t_lang}..."):
+        if btn5 and lang_in:
+            with st.spinner(f"Executing localization matrix for {t_lang}..."):
+                p = f"Translate and culturally localize this business marketing copy: '{lang_in}' into natural, persuasive {t_lang} meant for local commerce. Do not do a literal machine translation."
+                out, trace = run_inference(p, f"You are a native copywriting strategist fluent in {t_lang}.")
+                if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
+
+with tab6:
+    st.header("📊 AI Competitor Intelligence Matrix")
+    c1, c2 = st.columns(2)
+    with c1:
+        comp_txt = st.text_area("Paste Competitor's Offer / Social Ad copy here:", placeholder="e.g., Competitor offering cakes at 20% discount...", key="k14")
+        my_adv = st.text_input("Your Core Business Strength", placeholder="e.g., We use 100% organic local ingredients", key="k15")
+        btn6 = st.button("Generate Market Counter Strategy", key="b6")
+    with c2:
+        st.subheader("Counter-Marketing Blueprint")
+        if btn6 and comp_txt:
+            with st.spinner("Analyzing competitor strategy vectors..."):
+                p = f"Analyze competitor copy: '{comp_txt}'. Given my edge: '{my_adv}', generate a counter-strategy: 1. Weakness Analysis. 2. A specific counter-marketing message framework. 3. Three tactical market adjustments."
+                out, trace = run_inference(p, "You are an elite Competitive Growth Intelligence Analyst.")
+                if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
+
+with tab7:
+    st.header("🎬 Smart Instagram & Social Reels Scriptwriter")
+    c1, c2 = st.columns(2)
+    with c1:
+        v_topic = st.text_input("Video Script Topic Focus", placeholder="e.g., Hidden plumbing tips, bakery daily life", key="k16")
+        v_style = st.selectbox("Video Concept Presentation Model", ["Educational & Informative", "Fast-Paced & Energetic", "Storytelling & Emotional"], key="k17")
+        btn7 = st.button("Generate Video Script Blueprint", key="b7")
+    with c2:
+        st.subheader("Social Reel Script Structure")
+        if btn7 and v_topic:
+            with st.spinner("Architecting visual timeline hooks..."):
+                p = f"Create a viral short-form video script outline about: '{v_topic}' using a '{v_style}' presentation framework. Provide: 1. Hook (0-3s). 2. Visual directions with voiceover scripts. 3. Hashtags."
+                out, trace = run_inference(p, "You are a viral Social Media Content Director.")
+                if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
