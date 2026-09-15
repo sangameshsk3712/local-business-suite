@@ -3,7 +3,7 @@ import os, time, urllib.parse
 from google import genai
 from google.genai import types
 
-# 1. ENTERPRISE PAGE SETUP
+# 1. ENTERPRISE PAGE CONFIGURATION
 st.set_page_config(page_title="AI Local Business Pro", page_icon="👑", layout="wide")
 
 st.markdown("""
@@ -13,7 +13,6 @@ st.markdown("""
     .success-box { background-color: #F0FDF4; padding: 1rem; border-radius: 0.5rem; border-left: 5px solid #16A34A; margin-top: 1rem; }
     </style>
 """, unsafe_allow_html=True)
-
 # 2. STATELESS-SAFE USER TELEMETRY COUNTER
 if "telemetry_actions" not in st.session_state:
     st.session_state["telemetry_actions"] = 1
@@ -27,9 +26,8 @@ st.sidebar.markdown("---")
 st.markdown("<div class='main-header'>🚀 AI-Powered Local Business Growth Suite Pro</div>", unsafe_allow_html=True)
 st.markdown("<div class='sub-caption'>Elite, self-healing automation engine empowering local community businesses.</div>", unsafe_allow_html=True)
 
-# 3. MULTI-TIER SELF-HEALING ENDPOINTS (Bypasses 404/503 errors)
-M1, M2, M3 = 'gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'
-
+# 3. PRODUCTION ENDPOINTS FOR STABLE API INFRASTRUCTURE
+M1, M2 = 'gemini-2.5-flash', 'gemini-1.5-flash'
 if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"]:
     os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
     client = genai.Client()
@@ -42,18 +40,18 @@ else:
     else:
         st.stop()
 
-# 4. SELF-HEALING ROUTING ENGINE
+# 4. HIGH-AVAILABILITY SELF-HEALING ENGINE
 def run_inference(prompt_data, sys_instruction=None):
     cfg = types.GenerateContentConfig(temperature=0.7)
     if sys_instruction: cfg.system_instruction = sys_instruction
-    for m_node, lbl in [(M1, "Alpha"), (M2, "Beta"), (M3, "Gamma")]:
+    for m_node, lbl in [(M1, "Alpha Channel"), (M2, "Beta Circuit")]:
         try:
             res = client.models.generate_content(model=m_node, contents=prompt_data, config=cfg)
-            return res.text, f"⚡ Active via {lbl} ({m_node})"
+            if res and res.text:
+                return res.text, f"⚡ Active via {lbl} ({m_node})"
         except Exception:
             time.sleep(0.5); continue
-    return None, "All infrastructure pipelines saturated. Please retry in 15 seconds."
-
+    return None, "All infrastructure pipelines currently saturated. Please retry in 15 seconds."
 APP_URL = "https://streamlit.app"
 VIRAL_FT = f"\n\n⚡ Generated via AI Growth Suite. Try Free: {APP_URL}"
 
@@ -75,7 +73,7 @@ with tab1:
     with c2:
         if btn1 and rev_txt:
             with st.spinner("Processing sentiment matrix..."):
-                p = f"PR Manager for '{b_name}'. Star rating context: {rating}. Review text: '{rev_txt}'. Style paradigm: '{tone}'. If 3 stars or lower, insert an escalation clause inviting private mediation."
+                p = f"PR Manager for '{b_name}'. Rating: {rating}. Review: '{rev_txt}'. Style: '{tone}'. If 3 stars or lower, insert an escalation clause inviting private mediation."
                 out, trace = run_inference(p, "You are a professional corporate PR Executive.")
                 if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
 
@@ -93,7 +91,6 @@ with tab2:
                 p = f"Compile local SEO suite for a '{niche}' in '{loc}' targeting '{topic}'. Provide: 1. A Google Business Profile post update under 1500 chars with CTA. 2. Array of 10 hyper-local meta keywords."
                 out, trace = run_inference(p, "You are an elite Local SEO Engineer.")
                 if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
-
 with tab3:
     st.header("📢 Graphic Copy Structural Blueprint")
     c1, c2 = st.columns(2)
@@ -107,7 +104,6 @@ with tab3:
                 p = f"Design a visual copywriting wireframe flyer layout for Goal: '{goal}', Parameters: '{details}'. Structure cleanly for Canva copy-pasting into: VISUAL ANCHOR HEADLINE, SUBHEADER, MODULAR BLOCK DATA, CTA FOOTER."
                 out, trace = run_inference(p, "You are an award-winning Graphic Layout Copywriter.")
                 if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
-
 with tab4:
     st.header("📱 Direct-Response WhatsApp Message Formatter")
     c1, c2 = st.columns(2)
@@ -125,12 +121,11 @@ with tab4:
                     st.success(f"Status: {trace}"); st.code(f_out, language="text")
                     encoded = urllib.parse.quote(f_out)
                     st.markdown(f'<a href="https://whatsapp.com{encoded}" target="_blank"><button style="width:100%;background-color:#25D366;color:white;border:none;padding:0.75rem;border-radius:0.4rem;font-weight:bold;cursor:pointer;">📲 Fast Forward Direct to WhatsApp Contacts</button></a>', unsafe_allow_html=True)
-
 with tab5:
     st.header("🌐 Regional Semantic Translation Studio")
     c1, c2 = st.columns(2)
     with c1:
-        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾಠಿ)"], key="k12")
+        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (ತೆలుగు)", "Marathi (ಮರಾठी)"], key="k12")
         lang_in = st.text_area("Source English Marketing Copy:", placeholder="Enter marketing text here...", key="k13")
         btn5 = st.button("Process Linguistic Localization Strategy", key="b5")
     with c2:
@@ -139,7 +134,6 @@ with tab5:
                 p = f"Translate and culturally localize this business marketing copy: '{lang_in}' into natural, persuasive {t_lang} meant for local commerce. Do not do a literal machine translation."
                 out, trace = run_inference(p, f"You are a native copywriting strategist fluent in {t_lang}.")
                 if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
-
 with tab6:
     st.header("📊 AI Competitor Intelligence Matrix")
     c1, c2 = st.columns(2)
@@ -153,7 +147,6 @@ with tab6:
                 p = f"Analyze competitor copy: '{comp_txt}'. Given my edge: '{my_adv}', generate a counter-strategy: 1. Weakness Analysis. 2. A specific counter-marketing message framework. 3. Three tactical market adjustments."
                 out, trace = run_inference(p, "You are an elite Competitive Growth Intelligence Analyst.")
                 if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
-
 with tab7:
     st.header("🎬 Smart Instagram & Social Reels Scriptwriter")
     c1, c2 = st.columns(2)
@@ -162,33 +155,8 @@ with tab7:
         v_style = st.selectbox("Video Concept Presentation Model", ["Educational & Informative", "Fast-Paced & Energetic", "Storytelling & Emotional"], key="k17")
         btn7 = st.button("Generate Video Script Blueprint", key="b7")
     with c2:
-        if btn6 and comp_txt:
-            with st.spinner("Analyzing competitor strategy vectors..."):
-                sys_inst = "You are an elite Business Growth Strategist and Competitive Intelligence Analyst."
-                prompt = f"Analyze this competitor ad copy: '{comp_text}'. Given my competitive edge: '{my_advantage}', generate a counter-strategy blueprint containing: 1. Weakness Analysis of their offer. 2. A specific counter-marketing message framework I can use to win customers. 3. Three tactical business adjustments to win the local market neighborhood."
-                payload_response, log_trace = execute_core_inference(prompt, sys_inst)
-                if payload_response:
-                    st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}</div>", unsafe_allow_html=True)
-                    st.write(payload_response + VIRAL_FOOTPRINT)
-
-# ---------------------------------------------------------------------
-# TAB 7: INSTAGRAM & SOCIAL REELS SCRIPTWRITER
-# ---------------------------------------------------------------------
-with tab7:
-    st.header("🎬 Smart Instagram & Social Reels Scriptwriter")
-    st.write("Generate high-retention short video scripts to grow your local social media presence organically.")
-    col1, col2 = st.columns(2)
-    with col1:
-        video_topic = st.text_input("What is your video about?", placeholder="e.g., A day in the life of a bakery, hidden plumbing tips, unboxing new inventory", key="m7_topic")
-        video_style = st.selectbox("Video Concept Style", ["Educational & Informative", "Fast-Paced & Energetic", "Storytelling & Emotional"], key="m7_style")
-        generate_script = st.button("Generate Video Blueprint", key="btn_m7")
-    with col2:
-        st.subheader("Social Reel Script Structure")
-        if generate_script and video_topic:
+        if btn7 and v_topic:
             with st.spinner("Architecting visual timeline hooks..."):
-                sys_inst = "You are a viral Social Media Content Director and Short-Form Video Algorithm Consultant."
-                prompt = f"Create a viral 30-second video script outline for an Instagram Reel or YouTube Short about: '{video_topic}' using a '{video_style}' presentation model. Provide exactly: 1. A High-Retention Opening Hook string (0-3 seconds). 2. Visual Scene-by-Scene directions matched with corresponding voiceover scripts. 3. High-reach optimized text tags (#hashtags)."
-                payload_response, log_trace = execute_core_inference(prompt, sys_inst)
-                if payload_response:
-                    st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}</div>", unsafe_allow_html=True)
-                    st.write(payload_response + VIRAL_FOOTPRINT)
+                p = f"Create a viral short-form video script outline about: '{v_topic}' using a '{v_style}' presentation framework. Provide: 1. Hook (0-3s). 2. Visual directions with voiceover scripts. 3. Hashtags."
+                out, trace = run_inference(p, "You are a viral Social Media Content Director.")
+                if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
