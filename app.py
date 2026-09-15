@@ -43,10 +43,10 @@ st.markdown("<div class='sub-caption'>Elite, fault-tolerant automation engine em
 # =====================================================================
 # 3. MULTI-TIER SELF-HEALING INFRASTRUCTURE PIPELINE
 # =====================================================================
-# Cascade sequence targeting active production endpoints to bypass 503/404 errors completely
-MODEL_TIER_1 = 'gemini-3.6-flash'
-MODEL_TIER_2 = 'gemini-3.5-flash'
-MODEL_TIER_3 = 'gemini-2.5-pro'
+# Cascade sequence targeting active production endpoints to bypass errors completely
+MODEL_TIER_1 = 'gemini-2.5-flash'
+MODEL_TIER_2 = 'gemini-1.5-flash'
+MODEL_TIER_3 = 'gemini-1.5-pro'
 
 # =====================================================================
 # 4. SECURE AGNOSTIC KEY RESOLUTION LAYER (Supports new AQ. Keys)
