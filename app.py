@@ -29,37 +29,33 @@ st.markdown("<div class='sub-caption'>Elite, self-healing automation engine empo
 # 3. PRODUCTION ENDPOINTS FOR STABLE API INFRASTRUCTURE
 # 3. PRODUCTION ENDPOINTS FOR STABLE API INFRASTRUCTURE
 # 3. PRODUCTION ENDPOINTS FOR STABLE API INFRASTRUCTURE
+# 3. PRODUCTION ENDPOINTS FOR STABLE API INFRASTRUCTURE
 M1, M2 = 'gemini-2.5-flash', 'gemini-2.5-pro'
 
-if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"]:
-    os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
-    client = genai.Client()
-else:
-    st.sidebar.header("🔑 Authentication")
-    user_key = st.sidebar.text_input("Enter Production API Token (AQ...):", type="password")
-    if user_key:
-        os.environ["GEMINI_API_KEY"] = user_key.strip()
-        client = genai.Client()
-    else:
-        st.stop()
-
-# 4. HIGH-AVAILABILITY SELF-HEALING ENGINE
 # 4. HIGH-AVAILABILITY SELF-HEALING ENGINE
 def run_inference(prompt_data, sys_instruction=None):
-    # Combine the system persona instruction directly into the prompt text to ensure compatibility
     full_prompt = f"{sys_instruction}\n\nTask: {prompt_data}" if sys_instruction else prompt_data
     
+    # Force the local client context initialization to pass authentication down explicitly
+    try:
+        local_client = genai.Client()
+    except Exception:
+        local_client = client
+
     for m_node, lbl in [(M1, "Alpha Channel"), (M2, "Beta Circuit")]:
         try:
-            res = client.models.generate_content(
-                model=m_node, 
+            res = local_client.models.generate_content(
+                model=m_node,
                 contents=full_prompt
             )
             if res and res.text:
                 return res.text, f"⚡ Active via {lbl} ({m_node})"
         except Exception:
-            time.sleep(0.5); continue
+            time.sleep(0.5)
+            continue
+            
     return "All infrastructure pipelines currently saturated. Please retry in 15 seconds.", "System Block"
+
 APP_URL = "https://streamlit.app"
 VIRAL_FT = f"\n\n⚡ Generated via AI Growth Suite. Try Free: {APP_URL}"
 
