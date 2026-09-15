@@ -922,9 +922,6 @@ Keep it readable and persuasive.
                         language="text",
                     )
 
-                    encoded_message = urllib.parse.quote(
-                        output
-                    )
+                whatsapp_url = "https://wa.me/?text=" + urllib.parse.quote(output)
 
-                    whatsapp_url = (
-                        "https://wa.me/?text="
+st.link_button("💬 Open WhatsApp", whatsapp_url)
