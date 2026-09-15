@@ -92,7 +92,7 @@ def execute_core_inference(prompt_payload, system_instruction_set=None):
             )
             return response.text, f"⚡ Active via {label} ({model_node})"
         except Exception:
-            continue # Silently catch error and step down to the next tier immediately
+            continue
             
     return None, "All endpoints saturated. Please re-trigger the generation button in 15 seconds."
 
@@ -106,7 +106,6 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "📱 WhatsApp Broadcast Formatter",
     "🌐 Regional Language Studio"
 ])
-
 # ---------------------------------------------------------------------
 # TAB 1: REVIEW REPLY MATRIX
 # ---------------------------------------------------------------------
@@ -171,3 +170,47 @@ with tab3:
                 prompt = f"Design a visual copywriting wireframe flyer layout for Goal: '{flyer_goal}' and Parameters: '{offer_details}'. Break text down cleanly for Canva into: VISUAL ANCHOR HEADLINE, SUBHEADER, MODULAR BLOCK DATA, and FOOTER CALL TO ACTION."
                 payload_response, log_trace = execute_core_inference(prompt, sys_inst)
                 if payload_response:
+                    st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}<br><br>{payload_response}</div>", unsafe_style_html=True)
+
+# ---------------------------------------------------------------------
+# TAB 4: WHATSAPP BROADCAST SCALER
+# ---------------------------------------------------------------------
+with tab4:
+    st.header("📱 Direct-Response WhatsApp Message Formatter")
+    st.write("Convert flat text into copy sequences designed for WhatsApp broadcasting.")
+    col1, col2 = st.columns(2)
+    with col1:
+        wa_update = st.text_area("Raw Promotional Update Parameters", placeholder="e.g., Fresh mangoes available at wholesale prices today.", key="m4_input")
+        wa_cta = st.text_input("Direct Transaction Action Variable (CTA)", placeholder="e.g., WhatsApp reply or call 9999999999", key="m4_cta")
+        generate_wa = st.button("Format Enterprise WhatsApp Script", key="btn_m4")
+    with col2:
+        st.subheader("Copy-Paste Script Output")
+        if generate_wa and wa_update:
+            with st.spinner("Constructing engagement broadcast patterns..."):
+                sys_inst = "You are an expert Mobile Conversion Copywriter specializing in instant-messaging monetization."
+                prompt = f"Format this text into an enterprise WhatsApp broadcast message: '{wa_update}' using CTA trigger: '{wa_cta}'. Maximize spacing, use markdown bold formatting (*text*) for key phrases, and decorate with professional business emojis as bullet visual layout anchors."
+                payload_response, log_trace = execute_core_inference(prompt, sys_inst)
+                if payload_response:
+                    st.success(f"System Status: {log_trace}")
+                    st.code(payload_response, language="text")
+
+# ---------------------------------------------------------------------
+# TAB 5: REGIONAL SUITE LOCALIZATION MATRIX
+# ---------------------------------------------------------------------
+with tab5:
+    st.header("🌐 Regional Semantic Translation & Localization Matrix")
+    st.write("Translate standard English campaign properties into localized regional dialects.")
+    col1, col2 = st.columns(2)
+    with col1:
+        target_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (हिन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾठी)"], key="m5_lang")
+        input_marketing_text = st.text_area("Source English Marketing Properties:", placeholder="Enter marketing text here...", key="m5_src")
+        generate_translation = st.button("Process Linguistic Localization Strategy", key="btn_m5")
+    with col2:
+        st.subheader("Localized Regional Copy Output")
+        if generate_translation and input_marketing_text:
+            with st.spinner(f"Executing localization matrix mapping for {target_lang}..."):
+                sys_inst = f"You are a native linguistic expert, copywriter, and cultural localization strategist expert in {target_lang} dialect frameworks."
+                prompt = f"Translate and localize this English business marketing copy: '{input_marketing_text}' into {target_lang}. Do not make a machine translation; optimize it to sound natural, persuasive, and appealing to local consumers speaking that language natively."
+                payload_response, log_trace = execute_core_inference(prompt, sys_inst)
+                if payload_response:
+                    st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}<br><br>{payload_response}</div>", unsafe_style_html=True)
