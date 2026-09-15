@@ -908,20 +908,20 @@ Keep it readable and persuasive.
                         WHATSAPP_SYSTEM,
                     )
 
-                if output:
+if output:
 
-                    save_history(
-                        "WhatsApp Formatter",
-                        output,
-                    )
+        save_history(
+            "WhatsApp Formatter",
+            output,
+        )
 
-                    st.success(trace)
+        st.success(trace)
 
-                    st.code(
-                        output,
-                        language="text",
-                    )
+        st.code(
+            output,
+            language="text",
+        )
 
-               whatsapp_url = "https://wa.me/?text=" + urllib.parse.quote(output)
+        whatsapp_url = "https://wa.me/?text=" + urllib.parse.quote(output)
 
         st.link_button("💬 Open WhatsApp", whatsapp_url)
