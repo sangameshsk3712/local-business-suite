@@ -27,47 +27,46 @@ st.sidebar.markdown("---")
 st.markdown("<div class='main-header'>🚀 AI-Powered Local Business Growth Suite Pro</div>", unsafe_allow_html=True)
 st.markdown("<div class='sub-caption'>Elite, self-healing automation engine empowering local community businesses.</div>", unsafe_allow_html=True)
 
-# 3. ADVANCED FAULT-TOLERANT MODEL PIPELINES
+# 3. ADVANCED FAULT-TOLERANT MODEL PIPELINES (Updated to 2026 Production Tier)
 MODEL_TIER_1 = 'gemini-2.5-flash'
-MODEL_TIER_2 = 'gemini-1.5-flash'
+MODEL_TIER_2 = 'gemini-2.5-pro'
 
-active_key = None
+# Initialize master key lookup safely
+master_key = None
 if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"]:
-    active_key = st.secrets["GEMINI_API_KEY"].strip()
-    client = genai.Client(api_key=active_key)
+    master_key = st.secrets["GEMINI_API_KEY"].strip()
+    os.environ["GEMINI_API_KEY"] = master_key
+    client = genai.Client()
 else:
     st.sidebar.header("🔑 Authentication Matrix")
     user_key = st.sidebar.text_input("Enter Production API Token (AQ...):", type="password")
     if user_key:
-        active_key = user_key.strip()
-        client = genai.Client(api_key=active_key)
+        master_key = user_key.strip()
+        os.environ["GEMINI_API_KEY"] = master_key
+        client = genai.Client()
     else:
+        st.info("💡 Complete backend handshake setup by providing a credential set in the secure sidebar matrix or Streamlit Secrets configuration.")
         st.stop()
 
-# 4. UNIVERSAL SELF-HEALING ROUTING UTILITY
 # 4. UNIVERSAL SELF-HEALING ROUTING UTILITY
 def run_inference(prompt_data, sys_instruction=None):
     full_prompt = f"{sys_instruction}\n\nTask: {prompt_data}" if sys_instruction else prompt_data
     
-    # Dynamic live sync connection matrix
-    try:
-        if "GEMINI_API_KEY" in st.secrets:
-            local_client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"].strip())
-        elif active_key:
-            local_client = genai.Client(api_key=active_key)
-        else:
-            local_client = client
-    except Exception:
-        local_client = client
-
+    # Target fallback configuration array loop
     for model_node, label in [(MODEL_TIER_1, "Alpha Channel"), (MODEL_TIER_2, "Beta Circuit")]:
         try:
-            res = local_client.models.generate_content(model=model_node, contents=full_prompt)
+            # Dynamically initialize fresh client using the live master token lookup
+            local_client = genai.Client(api_key=master_key)
+            res = local_client.models.generate_content(
+                model=model_node,
+                contents=full_prompt
+            )
             if res and res.text:
                 return res.text, f"⚡ Active via {label} ({model_node})"
-        except Exception as err:
+        except Exception as error_context:
             time.sleep(0.5)
             continue
+            
     return None, "All infrastructure pipelines currently saturated. Please check your API key validity and retry."
 
 APP_URL = "https://streamlit.app"
@@ -177,7 +176,7 @@ with tab5:
     st.header("🌐 Regional Semantic Translation Studio")
     c1, c2 = st.columns(2)
     with c1:
-        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾठी)"], key="k12")
+        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (ತೆಗಳು)", "Marathi (ಮರಾಠಿ)"], key="k12")
         lang_in = st.text_area("Source English Marketing Copy:", placeholder="Enter marketing text here...", key="k13")
         btn5 = st.button("Process Linguistic Localization Strategy", key="b5")
     with c2:
@@ -187,7 +186,3 @@ with tab5:
                 st.warning("Please input english source marketing properties text.")
             else:
                 with st.spinner(f"Executing localization matrix for {t_lang}..."):
-                    p = f"Translate and culturally localize this business marketing copy: '{lang_in}' into natural, persuasive {t_lang} meant for local commerce. Do not do a literal machine translation."
-                    out, trace = run_inference(p, f"You are a native copywriting strategist fluent in {t_lang}.")
-                    if out: 
-                        st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True)
