@@ -31,7 +31,13 @@ else:
         st.info("← Please enter your Gemini API Key in the sidebar or configure Streamlit Secrets to start.")
         st.stop()
 
-# 3. Create Dashboard Tabs
+# 3. Visual Visitor Counter Analytics
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 📈 App Analytics")
+# This injects a live tracking badge unique to your repository URL
+st.sidebar.image("https://seeyoufarm.com")
+
+# 4. Create Dashboard Tabs
 tab1, tab2, tab3 = st.tabs([
     "💬 Review Reply Assistant", 
     "🔍 Local SEO Bundle", 
@@ -62,7 +68,7 @@ with tab1:
                 You are a professional PR and customer success manager for a business named '{biz_name}'.
                 Write a response to a customer who left a {rating} review. 
                 The customer said: "{review_text}"
-                Adopt a '{tone}' tone. If the review is negative (3 stars or fewer), offer a polite way for them to contact management privately to resolve it. Do not use placeholders; make it ready to copy and paste.
+                Adopt a '{tone}' tone. If the review is negative (3 stars or fewer), offer a polite way for them to contact management privately to resolve it. Do not use placeholders; make it rea[...]
                 """
                 response = client.models.generate_content(
                     model=AVAILABLE_MODEL,
