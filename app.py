@@ -12,18 +12,18 @@ st.set_page_config(
 st.title("🚀 AI-Powered Local Business Growth Suite")
 st.caption("Empowering local shops, freelancers, and small businesses with premium marketing tools.")
 
+# Modern production model endpoints recommended by Google
 AVAILABLE_MODEL = 'gemini-3.6-flash'
+BACKUP_MODEL = 'gemini-2.5-pro'
 
 # 2. Native Environment & Secrets Management for AQ. Keys
-# Look for Streamlit Secrets first
 if "GEMINI_API_KEY" in st.secrets:
     os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
-    client = genai.Client() # Initializes automatically from the environment environment variable
+    client = genai.Client()
 else:
-    # Sidebar fallback if secrets are empty
     st.sidebar.header("🔑 Authentication")
     user_key = st.sidebar.text_input("Enter your Gemini API Key (starts with AQ.):", type="password")
-    st.sidebar.markdown("💡 *Your key from [Google AI Studio](https://aistudio.google.com/)*")
+    st.sidebar.markdown("💡 *Your key from [Google AI Studio](https://google.com)*")
     if user_key:
         os.environ["GEMINI_API_KEY"] = user_key.strip()
         client = genai.Client()
@@ -31,13 +31,12 @@ else:
         st.info("← Please enter your Gemini API Key in the sidebar or configure Streamlit Secrets to start.")
         st.stop()
 
-# 3. Visual Visitor Counter Analytics
+# 📊 Simple Visual Visitor Counter
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📈 App Analytics")
-# This injects a live tracking badge unique to your repository URL
 st.sidebar.image("https://seeyoufarm.com")
 
-# 4. Create Dashboard Tabs
+# 3. Create Dashboard Tabs
 tab1, tab2, tab3 = st.tabs([
     "💬 Review Reply Assistant", 
     "🔍 Local SEO Bundle", 
@@ -71,21 +70,13 @@ with tab1:
                 Adopt a '{tone}' tone. If the review is negative (3 stars or fewer), offer a polite way for them to contact management privately to resolve it. Do not use placeholders; make it ready to copy and paste.
                 """
                 try:
-                    # Attempt 1: Try the preferred model requested by the user account
-                    response = client.models.generate_content(
-                        model=AVAILABLE_MODEL,
-                        contents=prompt
-                    )
+                    response = client.models.generate_content(model=AVAILABLE_MODEL, contents=prompt)
                     st.success("Done!")
                     st.write(response.text)
                 except Exception as primary_error:
-                    # Attempt 2: Auto-fallback if the server is overloaded
-                    st.info("🔄 Primary model busy. Switching to backup server...")
+                    st.info("🔄 Primary server busy. Switching to backup server...")
                     try:
-                        response = client.models.generate_content(
-                            model='gemini-2.5-pro', # High-capacity alternative endpoint
-                            contents=prompt
-                        )
+                        response = client.models.generate_content(model=BACKUP_MODEL, contents=prompt)
                         st.success("Done (via Backup)!")
                         st.write(response.text)
                     except Exception as secondary_error:
@@ -120,12 +111,19 @@ with tab2:
                 1. A high-converting, keyword-rich Google Business Profile Update post (under 1500 characters) including local call-to-actions.
                 2. A list of 10 hyper-local target keywords they should include on their website meta-tags to rank #1 in '{city_location}'.
                 """
-                response = client.models.generate_content(
-                    model=AVAILABLE_MODEL,
-                    contents=prompt
-                )
-                st.success("Done!")
-                st.write(response.text)
+                try:
+                    response = client.models.generate_content(model=AVAILABLE_MODEL, contents=prompt)
+                    st.success("Done!")
+                    st.write(response.text)
+                except Exception as primary_error:
+                    st.info("🔄 Primary server busy. Switching to backup server...")
+                    try:
+                        response = client.models.generate_content(model=BACKUP_MODEL, contents=prompt)
+                        st.success("Done (via Backup)!")
+                        st.write(response.text)
+                    except Exception as secondary_error:
+                        st.error("❌ Both public Google endpoints are currently overloaded.")
+                        st.warning("Please try pressing the button again in 30 seconds.")
 
 # ==========================================
 # TAB 3: SMART FLYER DESIGNER
@@ -157,9 +155,16 @@ with tab3:
                 - BODY COPY / BULLET POINTS (Key event details or offers)
                 - CALL TO ACTION (What to do next, e.g., 'Scan this QR code', 'Visit us at...')
                 """
-                response = client.models.generate_content(
-                    model=AVAILABLE_MODEL,
-                    contents=prompt
-                )
-                st.success("Done!")
-                st.write(response.text)
+                try:
+                    response = client.models.generate_content(model=AVAILABLE_MODEL, contents=prompt)
+                    st.success("Done!")
+                    st.write(response.text)
+                except Exception as primary_error:
+                    st.info("🔄 Primary server busy. Switching to backup server...")
+                    try:
+                        response = client.models.generate_content(model=BACKUP_MODEL, contents=prompt)
+                        st.success("Done (via Backup)!")
+                        st.write(response.text)
+                    except Exception as secondary_error:
+                        st.error("❌ Both public Google endpoints are currently overloaded.")
+                        st.warning("Please try pressing the button again in 30 seconds.")
