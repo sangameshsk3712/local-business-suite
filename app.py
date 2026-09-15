@@ -1,7 +1,6 @@
 import streamlit as st
 import os, time, urllib.parse
-from google import genai
-from google.genai import types
+import google.generativeai as genai
 
 # 1. ENTERPRISE PAGE ARCHITECTURE SETUP
 st.set_page_config(page_title="AI Local Business Pro", page_icon="👑", layout="wide")
@@ -25,46 +24,45 @@ st.sidebar.metric(label="Total App Interactions", value=st.session_state["teleme
 st.sidebar.markdown("---")
 
 st.markdown("<div class='main-header'>🚀 AI-Powered Local Business Growth Suite Pro</div>", unsafe_allow_html=True)
-st.markdown("<div class='sub-caption'>Elite, self-healing automation engine empowering local community businesses.</div>", unsafe_allow_html=True)
+st.markdown("<div class='sub-caption'>Elite, universally stable automation engine empowering local community businesses.</div>", unsafe_allow_html=True)
 
-# 3. PRODUCTION ENDPOINTS FOR STABLE API INFRASTRUCTURE
-MODEL_TIER_1 = 'gemini-2.5-flash'
-MODEL_TIER_2 = 'gemini-1.5-flash'
+# 3. PRODUCTION ENDPOINTS FOR STABLE INFRASTRUCTURE
+MODEL_NAME = 'gemini-1.5-flash'
 
-# Initialize master configuration references safely
+# Initialize master key lookup safely
 master_key = None
-client = None
-
 if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"]:
     master_key = st.secrets["GEMINI_API_KEY"].strip()
-    os.environ["GEMINI_API_KEY"] = master_key
-    client = genai.Client(api_key=master_key)
+    genai.configure(api_key=master_key)
 else:
     st.sidebar.header("🔑 Authentication Matrix")
     user_key = st.sidebar.text_input("Enter Production API Token (AQ...):", type="password")
     if user_key:
         master_key = user_key.strip()
-        os.environ["GEMINI_API_KEY"] = master_key
-        client = genai.Client(api_key=master_key)
+        genai.configure(api_key=master_key)
     else:
         st.info("💡 Complete backend handshake setup by providing a credential set in the secure sidebar matrix or Streamlit Secrets configuration.")
         st.stop()
 
-# 4. UNIVERSAL SELF-HEALING ROUTING UTILITY
+# 4. UNIVERSAL SECURE ROUTING UTILITY
 def run_inference(prompt_data, sys_instruction=None):
-    full_prompt = f"{sys_instruction}\n\nTask: {prompt_data}" if sys_instruction else prompt_data
-    
-    for model_node, label in [(MODEL_TIER_1, "Alpha Channel"), (MODEL_TIER_2, "Beta Circuit")]:
-        try:
-            local_client = genai.Client(api_key=master_key)
-            res = local_client.models.generate_content(model=model_node, contents=full_prompt)
-            if res and res.text:
-                return res.text, f"⚡ Active via {label} ({model_node})"
-        except Exception:
-            time.sleep(0.5)
-            continue
-            
-    return None, "All infrastructure pipelines currently saturated. Please check your API key validity and retry."
+    try:
+        # Re-verify layout token configuration on click
+        genai.configure(api_key=master_key)
+        
+        # Enforce structural expert persona directives directly
+        model = genai.GenerativeModel(
+            model_name=MODEL_NAME,
+            system_instruction=sys_instruction
+        )
+        
+        response = model.generate_content(prompt_data)
+        if response and response.text:
+            return response.text, f"⚡ Active via Universal Route ({MODEL_NAME})"
+    except Exception as e:
+        return None, f"Connection Pipeline Lockout: {str(e)}"
+        
+    return None, "Server failed to return text vectors. Please re-trigger the action button."
 
 APP_URL = "https://streamlit.app"
 VIRAL_FT = f"\n\n⚡ Generated via AI Growth Suite. Try Free: {APP_URL}"
@@ -91,6 +89,7 @@ with tab1:
                 p = f"PR Manager for '{b_name}'. Rating: {rating}. Review: '{rev_txt}'. Style: '{tone}'. If 3 stars or lower, insert an escalation clause inviting private mediation."
                 out, trace = run_inference(p, "You are a professional corporate PR Executive.")
                 if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
+                else: st.error(trace)
 
 with tab2:
     st.header("🔍 Hyper-Local SEO Performance Bundle")
@@ -107,6 +106,7 @@ with tab2:
                 p = f"Compile local SEO suite for a '{niche}' in '{loc}' targeting '{topic}'. Provide: 1. A Google Business Profile post update under 1500 chars with CTA. 2. Array of 10 hyper-local meta keywords."
                 out, trace = run_inference(p, "You are an elite Local SEO Engineer.")
                 if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
+                else: st.error(trace)
 
 with tab3:
     st.header("📢 Graphic Copy Structural Blueprint")
@@ -122,6 +122,7 @@ with tab3:
                 p = f"Design a visual copywriting wireframe flyer layout for Goal: '{goal}', Parameters: '{details}'. Structure cleanly for Canva copy-pasting into: VISUAL ANCHOR HEADLINE, SUBHEADER, MODULAR BLOCK DATA, CTA FOOTER."
                 out, trace = run_inference(p, "You are an award-winning Graphic Layout Copywriter.")
                 if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
+                else: st.error(trace)
 
 with tab4:
     st.header("📱 Direct-Response WhatsApp Message Formatter")
@@ -141,14 +142,13 @@ with tab4:
                     st.success(f"Status: {trace}"); st.code(f_out, language="text")
                     encoded = urllib.parse.quote(f_out)
                     st.markdown(f'<a href="https://whatsapp.com{encoded}" target="_blank"><button style="width:100%;background-color:#25D366;color:white;border:none;padding:0.75rem;border-radius:0.4rem;font-weight:bold;cursor:pointer;">📲 Fast Forward Direct to WhatsApp Contacts</button></a>', unsafe_allow_html=True)
-                else:
-                    st.error(trace)
+                else: st.error(trace)
 
 with tab5:
     st.header("🌐 Regional Semantic Translation Studio")
     c1, c2 = st.columns(2)
     with c1:
-        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (ತೆಗಳು)", "Marathi (ಮರಾಠಿ)"], key="k12")
+        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (ತೊಲುಗು)", "Marathi (ಮರಾಠಿ)"], key="k12")
         lang_in = st.text_area("Source English Marketing Copy:", placeholder="Enter marketing text here...", key="k13")
         btn5 = st.button("Process Linguistic Localization Strategy", key="b5")
     with c2:
@@ -157,8 +157,5 @@ with tab5:
             with st.spinner(f"Executing localization matrix for {t_lang}..."):
                 p = f"Translate and culturally localize this business marketing copy: '{lang_in}' into natural, persuasive {t_lang} meant for local commerce. Do not do a literal machine translation."
                 out, trace = run_inference(p, f"You are a native copywriting strategist fluent in {t_lang}.")
-                if out: 
-                    st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True)
-                    st.write(out + VIRAL_FT)
-                else:
-                    st.error(trace)
+                if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
+                else: st.error(trace)
