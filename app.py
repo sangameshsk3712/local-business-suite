@@ -15,7 +15,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Professional Visual Anchor Theme Styling
 st.markdown("""
     <style>
     .main-header { font-size: 2.5rem; font-weight: 800; color: #1E3A8A; margin-bottom: 0.2rem; }
@@ -49,7 +48,7 @@ MODEL_BETA  = 'gemini-1.5-flash'
 MODEL_GAMMA = 'gemini-1.5-pro'
 
 # =====================================================================
-# 4. SECURE AGNOSTIC KEY RESOLUTION LAYER (Supports new AQ. Keys)
+# 4. SECURE AGNOSTIC KEY RESOLUTION LAYER
 # =====================================================================
 if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"]:
     os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
@@ -83,7 +82,6 @@ def execute_core_inference(prompt_payload, system_instruction_set=None):
             
     return None, "All endpoints saturated. Please re-trigger the generation button in 15 seconds."
 
-# GLOBAL VIRAL FOOTPRINT FOR LINK RETRIEVAL
 APP_URL = "https://streamlit.app"
 VIRAL_FOOTPRINT = f"\n\n⚡ Generated via AI Growth Suite. Try Free: {APP_URL}"
 
@@ -233,3 +231,24 @@ with tab6:
         st.subheader("Counter-Marketing Blueprint")
         if generate_intel and comp_text:
             with st.spinner("Analyzing competitor strategy vectors..."):
+# ---------------------------------------------------------------------
+# TAB 7: INSTAGRAM & SOCIAL REELS SCRIPTWRITER
+# ---------------------------------------------------------------------
+with tab7:
+    st.header("🎬 Smart Instagram & Social Reels Scriptwriter")
+    st.write("Generate high-retention short video scripts to grow your local social media presence organically.")
+    col1, col2 = st.columns(2)
+    with col1:
+        video_topic = st.text_input("What is your video about?", placeholder="e.g., A day in the life of a bakery, hidden plumbing tips, unboxing new inventory", key="m7_topic")
+        video_style = st.selectbox("Video Concept Style", ["Educational & Informative", "Fast-Paced & Energetic", "Storytelling & Emotional"], key="m7_style")
+        generate_script = st.button("Generate Video Blueprint", key="btn_m7")
+    with col2:
+        st.subheader("Social Reel Script Structure")
+        if generate_script and video_topic:
+            with st.spinner("Architecting visual timeline hooks..."):
+                sys_inst = "You are a viral Social Media Content Director and Short-Form Video Algorithm Consultant."
+                prompt = f"Create a viral 30-second video script outline for an Instagram Reel or YouTube Short about: '{video_topic}' using a '{video_style}' presentation model. Provide exactly: 1. A High-Retention Opening Hook string (0-3 seconds). 2. Visual Scene-by-Scene directions matched with corresponding voiceover scripts. 3. High-reach optimized text tags (#hashtags)."
+                payload_response, log_trace = execute_core_inference(prompt, sys_inst)
+                if payload_response:
+                    st.markdown(f"<div class='success-box'><b>System Status:</b> {log_trace}</div>", unsafe_allow_html=True)
+                    st.write(payload_response + VIRAL_FOOTPRINT)
