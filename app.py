@@ -27,16 +27,15 @@ st.sidebar.markdown("---")
 st.markdown("<div class='main-header'>🚀 AI-Powered Local Business Growth Suite Pro</div>", unsafe_allow_html=True)
 st.markdown("<div class='sub-caption'>Elite, self-healing automation engine empowering local community businesses.</div>", unsafe_allow_html=True)
 
-# 3. ADVANCED FAULT-TOLERANT MODEL PIPELINES
-MODEL_TIER_1 = 'gemini-2.5-flash'
-MODEL_TIER_2 = 'gemini-1.5-flash'
+# 3. PRODUCTION ENDPOINTS FOR STABLE API INFRASTRUCTURE
+M1, M2 = 'gemini-2.5-flash', 'gemini-1.5-flash'
 
 active_key = None
 if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"]:
     active_key = st.secrets["GEMINI_API_KEY"].strip()
     client = genai.Client(api_key=active_key)
 else:
-    st.sidebar.header("🔑 Authentication Matrix")
+    st.sidebar.header("🔑 Authentication")
     user_key = st.sidebar.text_input("Enter Production API Token (AQ...):", type="password")
     if user_key:
         active_key = user_key.strip()
@@ -44,7 +43,7 @@ else:
     else:
         st.stop()
 
-# 4. UNIVERSAL SELF-HEALING ROUTING UTILITY
+# 4. HIGH-AVAILABILITY SELF-HEALING ENGINE
 def run_inference(prompt_data, sys_instruction=None):
     full_prompt = f"{sys_instruction}\n\nTask: {prompt_data}" if sys_instruction else prompt_data
     try:
@@ -52,15 +51,14 @@ def run_inference(prompt_data, sys_instruction=None):
     except Exception:
         local_client = client
 
-    for model_node, label in [(MODEL_TIER_1, "Alpha Channel"), (MODEL_TIER_2, "Beta Circuit")]:
+    for m_node, lbl in [(M1, "Alpha Channel"), (M2, "Beta Circuit")]:
         try:
-            res = local_client.models.generate_content(model=model_node, contents=full_prompt)
+            res = local_client.models.generate_content(model=m_node, contents=full_prompt)
             if res and res.text:
-                return res.text, f"⚡ Active via {label} ({model_node})"
+                return res.text, f"⚡ Active via {lbl} ({m_node})"
         except Exception:
-            time.sleep(0.5)
-            continue
-    return None, "All infrastructure pipelines currently saturated. Please check your API key validity and retry."
+            time.sleep(0.5); continue
+    return None, "All infrastructure pipelines currently saturated. Please check your key validity and retry."
 
 APP_URL = "https://streamlit.app"
 VIRAL_FT = f"\n\n⚡ Generated via AI Growth Suite. Try Free: {APP_URL}"
@@ -86,7 +84,6 @@ with tab1:
                 p = f"PR Manager for '{b_name}'. Rating: {rating}. Review: '{rev_txt}'. Style: '{tone}'. If 3 stars or lower, insert an escalation clause inviting private mediation."
                 out, trace = run_inference(p, "You are a professional corporate PR Executive.")
                 if out: st.markdown(f"<div class='success-box'><b>Status:</b> {trace}</div>", unsafe_allow_html=True); st.write(out + VIRAL_FT)
-                else: st.error("Inference execution drop. Verify backend pipeline capacity.")
 
 with tab2:
     st.header("🔍 Hyper-Local SEO Performance Bundle")
@@ -122,7 +119,7 @@ with tab4:
     c1, c2 = st.columns(2)
     with c1:
         wa_in = st.text_area("Raw Promotional Update Copy", placeholder="e.g., Fresh mangoes available today.", key="k10")
-        wa_cta = st.text_input("Direct Transaction CTA Variable", placeholder="e.g., WhatsApp reply or call 9999999999", key="k11")
+        wa_cta = to_user = st.text_input("Direct Transaction CTA Variable", placeholder="e.g., WhatsApp reply or call 9999999999", key="k11")
         btn4 = st.button("Format Enterprise WhatsApp Script", key="b4")
     with c2:
         if btn4 and wa_in:
@@ -139,7 +136,7 @@ with tab5:
     st.header("🌐 Regional Semantic Translation Studio")
     c1, c2 = st.columns(2)
     with c1:
-        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (हिन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾठी)"], key="k12")
+        t_lang = st.selectbox("Target Regional Linguistic Node", ["Kannada (ಕನ್ನಡ)", "Hindi (ಹಿन्दी)", "Telugu (తెలుగు)", "Marathi (ಮರಾठी)"], key="k12")
         lang_in = st.text_area("Source English Marketing Copy:", placeholder="Enter marketing text here...", key="k13")
         btn5 = st.button("Process Linguistic Localization Strategy", key="b5")
     with c2:
@@ -167,3 +164,4 @@ with tab7:
     st.header("🎬 Smart Instagram & Social Reels Scriptwriter")
     c1, c2 = st.columns(2)
     with c1:
+        v_topic = st.text_input("Video Script Topic Focus", placeholder="e.g., Hidden plumbing tips, bakery daily life", key="k16")
