@@ -27,7 +27,7 @@ st.markdown("<div class='main-header'>🚀 AI-Powered Local Business Growth Suit
 st.markdown("<div class='sub-caption'>Elite, universally stable automation engine empowering local community businesses.</div>", unsafe_allow_html=True)
 
 # 3. PRODUCTION ENDPOINTS FOR STABLE INFRASTRUCTURE
-MODEL_NAME = 'gemini-1.5-flash'
+MODEL_NAME = 'gemini-2.5-flash'
 
 # Initialize master key lookup safely
 master_key = None
