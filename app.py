@@ -80,7 +80,7 @@ with tab_reviews:
         if client:
             with st.spinner("Drafting response..."):
                 res = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.8-flash",
                     contents=f"Write a warm, brand-building review response to {rev_author} who left a {rev_rating}-star review: '{rev_text}'"
                 )
                 st.write(res.text)
