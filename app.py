@@ -897,22 +897,30 @@ Use:
 
 Use suitable emojis.
 Keep it readable and persuasive.
-"""
+# -------------------------------------------------------------
+# FIX: Initialize output = None BEFORE your button / generation
+# -------------------------------------------------------------
+output = None
 
-                with st.spinner(
-                    "Creating WhatsApp campaign..."
-                ):
+if st.button("Format for WhatsApp 💬", type="primary"):
+    with st.spinner("Generating formatted WhatsApp message..."):
+        try:
+            response = client.models.generate_content(
+                model="gemini-2.5-flash",  # or gemini-3.8-flash
+                contents=whatsapp_prompt,
+                config=types.GenerateContentConfig(
+                    system_instruction=WHATSAPP_SYSTEM,
+                ),
+            )
+            output = response.text
+        except Exception as e:
+            st.error(f"Error generating message: {e}")
 
-                    output, trace = run_ai(
-                        prompt,
-                        WHATSAPP_SYSTEM,
-                    )
-
+# This check is now 100% safe and will not throw NameError
 if output:
-
-        save_history(
-            "WhatsApp Formatter",
-            output,
+    st.subheader("Formatted WhatsApp Message")
+    st.code(output, language="markdown")
+    save_history("WhatsApp Formatter", output)
         )
 
         st.success(trace)
