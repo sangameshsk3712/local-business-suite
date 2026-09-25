@@ -877,37 +877,36 @@ with tabs[3]:
 
                 st.warning(
                     "Enter your promotional message."
-                )
+           # ==============================================================================
+# WHATSAPP BUSINESS FORMATTER SECTION (Lines ~880 - 935)
+# ==============================================================================
 
-            else:
+# Ensure inputs exist or fallback gracefully
+business_name_val = business_name if 'business_name' in locals() else "Local Business"
+customer_name_val = customer_name if 'customer_name' in locals() else "Customer"
+details_val = details if 'details' in locals() else "Order update and pickup details"
+cta_val = cta if 'cta' in locals() else "Reply YES to confirm"
 
-                prompt = f"""
-{business_context()}
+# Line 884: Properly opened AND closed triple-quoted f-string
+prompt = f"""
+Business Name: {business_name_val}
+Customer: {customer_name_val}
+Details & Offer: {details_val}
+Call to Action: {cta_val}
 
-Raw promotional message:
-{whatsapp_input}
+Format instructions:
+Create a professional WhatsApp message with emojis, *bold text*, _italics_, and clean spacing.
+"""
 
-CTA:
-{whatsapp_cta}
-
-Create a WhatsApp broadcast message.
-
-Use:
-*bold text*
-
-Use suitable emojis.
-Keep it readable and persuasive.
-# -------------------------------------------------------------
-# FIX: Initialize output = None BEFORE your button / generation
-# -------------------------------------------------------------
+# Initialize output = None BEFORE checking if output:
 output = None
 
 if st.button("Format for WhatsApp 💬", type="primary"):
     with st.spinner("Generating formatted WhatsApp message..."):
         try:
             response = client.models.generate_content(
-                model="gemini-2.5-flash",  # or gemini-3.8-flash
-                contents=whatsapp_prompt,
+                model="gemini-2.5-flash",
+                contents=prompt,
                 config=types.GenerateContentConfig(
                     system_instruction=WHATSAPP_SYSTEM,
                 ),
@@ -916,20 +915,8 @@ if st.button("Format for WhatsApp 💬", type="primary"):
         except Exception as e:
             st.error(f"Error generating message: {e}")
 
-# This check is now 100% safe and will not throw NameError
+# Line 911: Safely handles output without NameError
 if output:
-    st.subheader("Formatted WhatsApp Message")
+    st.subheader("Your Formatted WhatsApp Message")
     st.code(output, language="markdown")
     save_history("WhatsApp Formatter", output)
-        )
-
-        st.success(trace)
-
-        st.code(
-            output,
-            language="text",
-        )
-
-        whatsapp_url = "https://wa.me/?text=" + urllib.parse.quote(output)
-
-        st.link_button("💬 Open WhatsApp", whatsapp_url)
