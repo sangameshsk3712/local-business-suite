@@ -24,39 +24,115 @@ st.set_page_config(
 )
 st.markdown("""
 <div style="
-    text-align:center;
-    padding:20px;
-    margin:10px 0 25px 0;
-    border:3px solid #6c5ce7;
-    border-radius:18px;
-    background:linear-gradient(135deg,#f5f3ff,#eef9ff);
-    box-shadow:0 8px 25px rgba(0,0,0,0.12);
+    margin: 15px 0 25px 0;
+    padding: 28px;
+    border: 2px solid #d4af37;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #07152f, #101b3d, #07101f);
+    box-shadow: 0 10px 35px rgba(0,0,0,0.35);
 ">
-    <div style="
-        font-size:16px;
-        font-weight:800;
-        letter-spacing:3px;
-        margin-bottom:6px;
-    ">
-        ✦ FOUNDER & ARCHITECT ✦
-    </div>
 
     <div style="
-        font-size:34px;
-        font-weight:900;
-        letter-spacing:2px;
-    ">
-        SANGAMESH S.K.
-    </div>
-
-    <div style="
+        display:inline-block;
+        padding:7px 16px;
+        border-radius:20px;
+        background:#666b32;
+        color:white;
         font-size:14px;
-        margin-top:6px;
-        opacity:0.75;
+        font-weight:800;
+        letter-spacing:1px;
+        margin-bottom:10px;
+    ">
+        ★ APP FOUNDER & LEAD ARCHITECT
+    </div>
+
+    <br>
+
+    <div style="
+        display:inline-block;
+        padding:6px 14px;
+        border-radius:20px;
+        background:#073e59;
+        color:#52e8ff;
+        font-size:13px;
+        font-weight:700;
+        margin-top:5px;
+    ">
+        ✓ VERIFIED CREATOR
+    </div>
+
+    <div style="
+        margin-top:14px;
+        font-size:36px;
+        font-weight:900;
+        color:white;
         letter-spacing:1px;
     ">
-        Vision • Architecture • Innovation
+        Sangamesh Khatge
     </div>
+
+    <div style="
+        margin-top:8px;
+        font-size:16px;
+        color:#bdeaff;
+        line-height:1.6;
+    ">
+        Creator & Architect of
+        <b>AI Local Business Growth Suite Pro</b>
+    </div>
+
+    <div style="
+        margin-top:10px;
+        font-size:14px;
+        color:#d5e5ff;
+        line-height:1.7;
+    ">
+        Building intelligent AI-powered business tools,
+        automation and enterprise solutions.
+    </div>
+
+    <div style="margin-top:22px;">
+
+        <span style="
+            display:inline-block;
+            padding:13px 24px;
+            margin-right:10px;
+            border-radius:12px;
+            background:#f5df3b;
+            color:#111;
+            font-size:15px;
+            font-weight:800;
+        ">
+            👑 GO PREMIUM
+        </span>
+
+        <span style="
+            display:inline-block;
+            padding:13px 24px;
+            margin-right:10px;
+            border-radius:12px;
+            background:#11dff2;
+            color:#06202a;
+            font-size:15px;
+            font-weight:800;
+        ">
+            📞 CONTACT FOUNDER
+        </span>
+
+        <span style="
+            display:inline-block;
+            padding:13px 24px;
+            border-radius:12px;
+            background:#063f5a;
+            color:#52e8ff;
+            font-size:15px;
+            font-weight:800;
+        ">
+            💬 WHATSAPP
+        </span>
+
+    </div>
+
 </div>
 """, unsafe_allow_html=True)
 # ============================================================
