@@ -22,7 +22,43 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+st.markdown("""
+<div style="
+    text-align:center;
+    padding:20px;
+    margin:10px 0 25px 0;
+    border:3px solid #6c5ce7;
+    border-radius:18px;
+    background:linear-gradient(135deg,#f5f3ff,#eef9ff);
+    box-shadow:0 8px 25px rgba(0,0,0,0.12);
+">
+    <div style="
+        font-size:16px;
+        font-weight:800;
+        letter-spacing:3px;
+        margin-bottom:6px;
+    ">
+        ✦ FOUNDER & ARCHITECT ✦
+    </div>
 
+    <div style="
+        font-size:34px;
+        font-weight:900;
+        letter-spacing:2px;
+    ">
+        SANGAMESH S.K.
+    </div>
+
+    <div style="
+        font-size:14px;
+        margin-top:6px;
+        opacity:0.75;
+        letter-spacing:1px;
+    ">
+        Vision • Architecture • Innovation
+    </div>
+</div>
+""", unsafe_allow_html=True)
 # ============================================================
 # 2. PREMIUM UI STYLING
 # ============================================================
